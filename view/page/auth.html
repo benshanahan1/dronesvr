@@ -1,0 +1,29 @@
+{% extends "view/base.html" %}
+
+{% set active_page = "auth" %}
+
+{% block header %}
+<div class="page-title">User Login</div>
+{% endblock %}
+
+{% block content %}
+<form name="login" method="post" action="/login">
+<div class="container">
+    <div class="row login">
+        <div class="col-sm-1">Username:</div>
+        <div class="col-sm-2"><input type="text" class="grid-input" name="username" id="username"></div>
+    </div>
+    <div class="row login">
+        <div class="col-sm-1">Password:</div>
+        <div class="col-sm-2"><input type="password" class="grid-input" name="password"></div>
+    </div>
+    <div class="row login">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2"><input type="submit" class="grid-button" name="login" value="Login" /></div>
+    </div>
+</div>
+</form>
+<script type="text/javascript">
+    $("#username").focus();  // focus the username input for faster login
+</script>
+{% endblock %}

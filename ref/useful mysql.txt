@@ -1,0 +1,20 @@
+// Insert new column into mysql table:
+ALTER TABLE contacts ADD email VARCHAR(60) AFTER name;
+
+// Create a new table:
+CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20), species VARCHAR(20), sex CHAR(1), birth DATE, death DATE);
+
+// Increase size allocated for VARCHAR
+ALTER TABLE table_name MODIFY col_name VARCHAR(10000)
+
+// change column name
+ALTER TABLE tablename CHANGE ssn ssn_new varchar(25)
+
+// drop column
+ALTER TABLE tbl_Country DROP COLUMN IsDeleted;
+
+// update value in row
+UPDATE table_name SET field=newvalue WHERE clause
+
+// drop row
+DELETE FROM table_name [WHERE clause]

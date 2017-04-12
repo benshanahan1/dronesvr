@@ -1,0 +1,19 @@
+{% extends "view/base.html" %}
+
+{% set raw = true %}
+{% set active_page = "index" %}
+
+{% block raw %}
+<!-- Front-end styles and code -->
+<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+<link href='/static/css/frontend.css' rel='stylesheet' />
+<div id='map'></div>
+<script src='/static/js/frontend.js'></script>  <!-- must come after map div -->
+
+<!-- Page title and navigation -->
+<div id="header">
+    <span id="title">{{info["name"]}}</span>
+    <span id="nav">| {{ generate_nav() }}</span>
+</div>
+{% endblock %}

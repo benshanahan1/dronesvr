@@ -1,0 +1,8 @@
+DroneServer v0.1
+Powered by CherryPy Python Web Framework (http://cherrypy.org/)
+
+Other credit goes to:
+Bootstrap       v3.3.7
+jQuery          v3.1.1
+
+20 January 2017, Benjamin Shanahan.

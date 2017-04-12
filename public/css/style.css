@@ -1,0 +1,62 @@
+body {
+    font-family: 'Nunito', sans-serif;
+}
+
+/*Active navigation links*/
+.active {
+    font-weight: bold;
+}
+
+.credit {
+    color: #999;
+    font-size: 8pt;
+}
+.login {
+    padding-bottom: 5px;
+}
+
+.site-title {
+    font-weight: bold;
+    font-size: 20pt;
+}
+.page-title {
+    /*font-style: italic;*/
+    font-size: 16pt;
+}
+
+.status {
+    color: maroon;
+    position: absolute;
+    margin: 0 auto;
+    background: #f4dc42;
+    padding-left: 5px;
+    top: 15px;
+    width: 90%;
+}
+.display-table {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.grid-title {
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+.grid-header {
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+.grid-element {
+    padding: 5px;
+}
+.grid-input {
+    width: 100%;
+}
+.grid-button {
+    width: 100%;
+}
+
+.danger {
+    font-weight: bold;
+    color: red;
+}

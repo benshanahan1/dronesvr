@@ -1,0 +1,4 @@
+cherrypy==10.0.0
+MySQL-python==1.2.5
+jinja2==2.9.6
+pysha3==1.0.0

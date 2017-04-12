@@ -1,0 +1,69 @@
+{% macro generate_nav() %}
+    {% set active_page = active_page|default("index") -%}
+    <a href="/" {% if active_page=="index" %}class="active"{% endif %}>Map</a> |
+    <a href="/about" {% if active_page=="about" %}class="active"{% endif %}>About</a> | 
+    {% if username %}
+        <a href="/logout">Sign Out</a>
+    {% else %}
+        <a href="/auth" {% if active_page=="auth" %}class="active"{% endif %}>Sign In</a>
+    {% endif %}
+{% endmacro %}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{info['name']}} {{info['version']}}: {{info['description']}}">
+    
+    <link rel="icon" href="/static/img/favicon.png">
+
+    <title>{{info["name"]}}</title>
+
+    <script src="/static/js/jquery-3.1.1.min.js"></script>
+    <script src="/static/js/jquery-ui.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/globals.js"></script>
+    
+</head>
+<body>
+
+{% if raw %}
+
+{% block raw %}{% endblock %}
+
+{% else %}
+
+<div class="container">
+
+    <div class="page-header">
+        <!-- <div class="site-title">{{info["name"]}}</div> -->
+        {% block header %}{% endblock %}
+        <div class="navigation">
+            {{ generate_nav() }}
+        </div>
+    </div>
+
+    <div class="page-header">
+        {% block content %}{% endblock %}
+    </div>
+
+</div>
+
+<div class="footer">
+    <div class="container">
+        <p class="muted credit"><span style="font-style:italic"><a href="/">{{info["name"]}}</a></span> {{info["version"]}} - Copyright &copy; 2017 {{info["authors"]}}</p>
+    </div>
+</div>
+
+{% endif %}
+
+<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+<link href="/static/css/jquery-ui.min.css" rel="stylesheet">
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/style.css" rel="stylesheet">
+
+</body>
+</html>
