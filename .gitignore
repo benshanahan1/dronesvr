@@ -1,0 +1,16 @@
+# Generic hidden files
+.DS_Store
+Thumb.db
+
+# Compile python
+*.pyc
+
+# Exclude folders
+dronesvr/clientdata/sessions/*
+dronesvr/log/*
+
+# Keep an empty folder if it contains a .gitkeep file
+!.gitkeep 
+
+# Remove passwords file
+*.pw
