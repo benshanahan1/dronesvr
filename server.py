@@ -26,7 +26,7 @@ def get_app(conf):
 
 def new_thread(thread_index):
     cherrypy.thread_data.db = MySQLdb.connect(
-        Database.HOST, 
+        os.environ[Database.HOST_ENV_VAR], 
         Database.USER, 
         os.environ[Database.PASSWORD_ENV_VAR],
         Database.DATABASE_NAME)
