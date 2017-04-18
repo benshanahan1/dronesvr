@@ -20,7 +20,7 @@ class App:
 
 class Database:
     HOST = "localhost"
-    USER = "root"
+    USER = "db_user"
     PASSWORD_ENV_VAR = "DRONE_DB_PWD"  # name of environmental variable
     DATABASE_NAME = "dronedb"
     DRONES_TABLE = "drones"
