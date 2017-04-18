@@ -6198,3 +6198,73 @@ NameError: global name 'username' is not defined
 [12/Apr/2017:18:25:44] ENGINE Bus STARTED
 [12/Apr/2017:18:26:31]  storage_type is deprecated. Supply storage_class instead
 [12/Apr/2017:18:26:31] ENGINE Started monitor thread 'Session cleanup'.
+[12/Apr/2017:18:53:42] ENGINE Keyboard Interrupt: shutting down bus
+[12/Apr/2017:18:53:42] ENGINE Bus STOPPING
+[12/Apr/2017:18:53:42] ENGINE HTTP Server cherrypy._cpwsgi_server.CPWSGIServer(('0.0.0.0', 80)) shut down
+[12/Apr/2017:18:53:42] ENGINE Stopped thread 'Session cleanup'.
+[12/Apr/2017:18:53:42] ENGINE Stopped thread 'Autoreloader'.
+[12/Apr/2017:18:53:42] ENGINE Stopped thread '_TimeoutMonitor'.
+[12/Apr/2017:18:53:42] ENGINE Bus STOPPED
+[12/Apr/2017:18:53:42] ENGINE Bus EXITING
+[12/Apr/2017:18:53:42] ENGINE Bus EXITED
+[12/Apr/2017:18:53:42] ENGINE Waiting for child threads to terminate...
+[17/Apr/2017:15:24:37] ENGINE Listening for SIGHUP.
+[17/Apr/2017:15:24:37] ENGINE Listening for SIGTERM.
+[17/Apr/2017:15:24:37] ENGINE Listening for SIGUSR1.
+[17/Apr/2017:15:24:37] ENGINE Bus STARTING
+[17/Apr/2017:15:24:37] ENGINE Started monitor thread 'Autoreloader'.
+[17/Apr/2017:15:24:37] ENGINE Started monitor thread '_TimeoutMonitor'.
+[17/Apr/2017:15:24:37] ENGINE Serving on http://0.0.0.0
+[17/Apr/2017:15:24:37] ENGINE Bus STARTED
+[17/Apr/2017:15:24:58]  storage_type is deprecated. Supply storage_class instead
+[17/Apr/2017:15:24:58] ENGINE Started monitor thread 'Session cleanup'.
+[17/Apr/2017:15:59:33] ENGINE Keyboard Interrupt: shutting down bus
+[17/Apr/2017:15:59:33] ENGINE Bus STOPPING
+[17/Apr/2017:15:59:33] ENGINE HTTP Server cherrypy._cpwsgi_server.CPWSGIServer(('0.0.0.0', 80)) shut down
+[17/Apr/2017:15:59:33] ENGINE Stopped thread 'Session cleanup'.
+[17/Apr/2017:15:59:33] ENGINE Stopped thread 'Autoreloader'.
+[17/Apr/2017:15:59:33] ENGINE Stopped thread '_TimeoutMonitor'.
+[17/Apr/2017:15:59:33] ENGINE Bus STOPPED
+[17/Apr/2017:15:59:33] ENGINE Bus EXITING
+[17/Apr/2017:15:59:33] ENGINE Bus EXITED
+[17/Apr/2017:15:59:33] ENGINE Waiting for child threads to terminate...
+[17/Apr/2017:16:39:03] ENGINE Listening for SIGHUP.
+[17/Apr/2017:16:39:03] ENGINE Listening for SIGTERM.
+[17/Apr/2017:16:39:03] ENGINE Listening for SIGUSR1.
+[17/Apr/2017:16:39:03] ENGINE Bus STARTING
+[17/Apr/2017:16:39:03] ENGINE Started monitor thread 'Autoreloader'.
+[17/Apr/2017:16:39:03] ENGINE Started monitor thread '_TimeoutMonitor'.
+[17/Apr/2017:16:39:03] ENGINE Serving on http://0.0.0.0
+[17/Apr/2017:16:39:03] ENGINE Bus STARTED
+[17/Apr/2017:16:48:40]  storage_type is deprecated. Supply storage_class instead
+[17/Apr/2017:16:48:40] ENGINE Started monitor thread 'Session cleanup'.
+[17/Apr/2017:16:56:50] ENGINE Keyboard Interrupt: shutting down bus
+[17/Apr/2017:16:56:50] ENGINE Bus STOPPING
+[17/Apr/2017:16:56:50] ENGINE HTTP Server cherrypy._cpwsgi_server.CPWSGIServer(('0.0.0.0', 80)) shut down
+[17/Apr/2017:16:56:50] ENGINE Stopped thread 'Session cleanup'.
+[17/Apr/2017:16:56:50] ENGINE Stopped thread 'Autoreloader'.
+[17/Apr/2017:16:56:50] ENGINE Stopped thread '_TimeoutMonitor'.
+[17/Apr/2017:16:56:50] ENGINE Bus STOPPED
+[17/Apr/2017:16:56:50] ENGINE Bus EXITING
+[17/Apr/2017:16:56:50] ENGINE Bus EXITED
+[17/Apr/2017:16:56:50] ENGINE Waiting for child threads to terminate...
+[17/Apr/2017:22:14:52] ENGINE Listening for SIGHUP.
+[17/Apr/2017:22:14:52] ENGINE Listening for SIGTERM.
+[17/Apr/2017:22:14:52] ENGINE Listening for SIGUSR1.
+[17/Apr/2017:22:14:52] ENGINE Bus STARTING
+[17/Apr/2017:22:14:52] ENGINE Started monitor thread 'Autoreloader'.
+[17/Apr/2017:22:14:52] ENGINE Started monitor thread '_TimeoutMonitor'.
+[17/Apr/2017:22:14:52] ENGINE Serving on http://0.0.0.0
+[17/Apr/2017:22:14:52] ENGINE Bus STARTED
+[17/Apr/2017:22:15:14]  storage_type is deprecated. Supply storage_class instead
+[17/Apr/2017:22:15:14] ENGINE Started monitor thread 'Session cleanup'.
+[17/Apr/2017:22:33:20] ENGINE Keyboard Interrupt: shutting down bus
+[17/Apr/2017:22:33:20] ENGINE Bus STOPPING
+[17/Apr/2017:22:33:20] ENGINE HTTP Server cherrypy._cpwsgi_server.CPWSGIServer(('0.0.0.0', 80)) shut down
+[17/Apr/2017:22:33:20] ENGINE Stopped thread 'Session cleanup'.
+[17/Apr/2017:22:33:20] ENGINE Stopped thread 'Autoreloader'.
+[17/Apr/2017:22:33:20] ENGINE Stopped thread '_TimeoutMonitor'.
+[17/Apr/2017:22:33:20] ENGINE Bus STOPPED
+[17/Apr/2017:22:33:20] ENGINE Bus EXITING
+[17/Apr/2017:22:33:20] ENGINE Bus EXITED
+[17/Apr/2017:22:33:20] ENGINE Waiting for child threads to terminate...
