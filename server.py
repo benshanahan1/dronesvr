@@ -2,6 +2,7 @@ from lib.controllers import Controller
 from lib.api import API
 from lib.globals import Configuration, Database
 
+import ConfigParser
 import os
 import MySQLdb
 import cherrypy
@@ -25,14 +26,13 @@ def get_app(conf):
     return cherrypy.tree
 
 def new_thread(thread_index):
-    print "here"
-    print os.environ[Database.HOST_ENV_VAR], os.environ[Database.PASSWORD_ENV_VAR]
-    print "end"
+    cfg = ConfigParser.ConfigParser()
+    cfg.read("config/db.keys")  # parse .keys file in config/ dir
     cherrypy.thread_data.db = MySQLdb.connect(
-        os.environ[Database.HOST_ENV_VAR], 
-        Database.USER, 
-        os.environ[Database.PASSWORD_ENV_VAR],
-        Database.DATABASE_NAME)
+        cfg.get("Database","host"), 
+        cfg.get("Database","user"), 
+        cfg.get("Database","password"),
+        cfg.get("Database","database"))
 
 def secure_headers():
     headers = cherrypy.response.headers

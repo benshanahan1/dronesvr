@@ -19,10 +19,6 @@ class App:
     }
 
 class Database:
-    HOST_ENV_VAR = "DRONE_DB_HOST"  # name of environ variable
-    USER = "db_user"
-    PASSWORD_ENV_VAR = "DRONE_DB_PWD"  # name of environ variable
-    DATABASE_NAME = "dronedb"
     DRONES_TABLE = "drones"
     ZONES_TABLE = "zones"
     TYPES_TABLE = "types"
