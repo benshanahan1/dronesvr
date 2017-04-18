@@ -13,4 +13,4 @@ dronesvr/log/*
 !.gitkeep 
 
 # Remove passwords file
-*.pw
+*.keys
