@@ -1,59 +1,141 @@
-L.mapbox.accessToken = 'pk.eyJ1IjoiaXp6eWJyYW5kIiwiYSI6ImNpeTdzdHh3ZDAwNncycXN4eTYyY2k3dTAifQ.WzrAcd4xaQ0dd7ur3u0fSQ';
+// Get page information
+var username = $("#username").val();
 
-var map = L.mapbox.map('map', 'mapbox.streets', {
-    keyboard: false
-}).setView([41.8258611,-71.4034908],17);
+//////////////////////////////////////////////////
 
-var zoneLayer = L.mapbox.featureLayer().addTo(map); // layer to hold the zone icons
-
-// generates a zone feature geoJson which can we badded to a feature collection
-function generateZoneFeature(name, lat, lon) {
-    return {
-      "type": "Feature",
-      "geometry": {
-          "type": "Point",
-          "coordinates": [lon, lat]
-      },
-      "properties": {
-          "title": name, // name of point to show when clicked
-          "icon": {
-              "iconUrl": "/static/img/zone.png",
-              "iconSize": [40, 40], // size of the icon
-              "iconAnchor": [20, 20], // point of the icon which will correspond to marker's location
-              "popupAnchor": [0, -20], // point from which the popup should open relative to the iconAnchor
-              "className": "dot"
-          }
-      }
-  }
+// Define feature markers (TODO: put this in a separate text file?!)
+info = {
+    // "hub": {
+    //     "name": "Central Hub",
+    //     "description": "Loading hub for the drones",
+    //     "latitude": 41.826904,
+    //     "longitude": -71.401563,
+    //     "marker-color": "#17452d",
+    //     "marker-size": "small"
+    // },
+    "ruthsimmons": {
+        "name": "Ruth Simmons",
+        "destination": "ruthsimmons",
+        "description": "Ruth Simmon's delivery",
+        "latitude": 41.826316,
+        "longitude": -71.401063,
+        "marker-color": "#990000",
+        "marker-size": "small"
+    },
+    "quietgreen": {
+        "name": "Quiet Green",
+        "destination": "quietgreen",
+        "description": "Quiet Green delivery",
+        "latitude": 41.826168,
+        "longitude": -71.404168,
+        "marker-color": "#990000",
+        "marker-size": "small"
+    },
+    "maingreen": {
+        "name": "Main Green",
+        "destination": "maingreen",
+        "description": "Main Green delivery",
+        "latitude": 41.826028,
+        "longitude": -71.403429,
+        "marker-color": "#990000",
+        "marker-size": "small"
+    }
 }
 
-var testCoord = 41.826317
+// Define geoJSON information for map
+geoJson = {
+    type: 'FeatureCollection',
+    features: [
+        generateFeature(info["ruthsimmons"]),
+        generateFeature(info["maingreen"]),
+        generateFeature(info["quietgreen"])
+        // generateFeature(info["hub"])
+    ]
+}
 
-var zoneGeoJson = {
-  type: 'FeatureCollection',
-  features: [
-  generateZoneFeature('Ruth Simmon\'s East', 41.826317, -71.401175),
-  generateZoneFeature('Wriston West', 41.825031, -71.402029),
-  generateZoneFeature('Main Green Center', 41.826063, -71.403322),
-  generateZoneFeature('Pembroke Field Center', 41.829639, -71.399062),
-  generateZoneFeature('The Walk North', 41.827663, -71.401896)
-  ]
-};
+// Define map
+L.mapbox.accessToken = 'pk.eyJ1IjoiaXp6eWJyYW5kIiwiYSI6ImNpeTdzdHh3ZDAwNncycXN4eTYyY2k3dTAifQ.WzrAcd4xaQ0dd7ur3u0fSQ';
+var map = L.mapbox.map("map","mapbox.streets").setView([41.826192,-71.402693],16);
 
-// Set a custom icon on each marker based on feature properties.
-zoneLayer.on('layeradd', function(e) {
-    var marker = e.layer, feature = marker.feature;
-    marker.setIcon(L.icon(feature.properties.icon));
+// Define map layer
+var myLayer = L.mapbox.featureLayer().addTo(map);
+myLayer.setGeoJSON(geoJson);
+myLayer.eachLayer(function(layer) {
+    var content = formatContent(layer.feature.properties);
+    layer.bindPopup(content);
 });
 
-// Add features to the map.
-zoneLayer.setGeoJSON(zoneGeoJson);
+
+//////////////////////////////////////////////////
+
+// HELPER FUNCTIONS //
+function generateFeature(info) {
+    return {
+        type: "Feature",
+        properties: {
+            "name": info["name"],
+            "destination": info["destination"],
+            "description": info["description"],
+            "marker-color": info["marker-color"],
+            "marker-size": info["marker-size"]
+        },
+        geometry: {
+            type: "Point",
+            coordinates: [info["longitude"],info["latitude"]]
+        }
+    }
+}
+
+function formatContent(properties) {
+    if (username) {
+        return ' \
+            <h3 class="popup-title">' + properties.name + '<\/h3> \
+            <input type="hidden" id="destination" value="' + properties.destination + '" \
+            <div> \
+                <label class="control-label" for="selectbasic">Choose Donut Type:<\/label> \
+                <select id="flavor" class="form-control"> \
+                  <option value="chocolate">Chocolate<\/option> \
+                  <option value="glazed">Glazed<\/option> \
+                  <option value="jelly">Jelly<\/option> \
+                <\/select> \
+            <\/div> \
+            <div> \
+                <label class="col-md-6 control-label" for="addjob"><\/label> \
+                <button class="btn btn-primary deliver-button" id="deliverbtn">Deliver!<\/button> \
+            <\/div>';
+    } else {
+        return '<h3>' + properties.name + '<\/h3> \
+            <p>To order, please <a href="auth">sign in<\/a><\/p>';
+    }
 
 
-//droneLayer.setGeoJSON(droneGeoJson);
+}
 
-setInterval(function move(){
-    testCoord += 0.01
-    // console.log(testCoord)
-    zoneLayer.setGeoJSON(zoneGeoJson);
-    }, 1000)
+// Push alert to notify user. TODO: make this less intrusive!
+function notifyUser(message) {
+    $("#message").text(message).show("fast");
+}
+
+// Add AJAX functionality to deliver button
+setInterval(activateButtons,500);  // TODO: fix this. THIS IS A HACK
+// TODO: fix this interface: it submits 3x because there are duplicate id's on the page.
+// more ideally: there is one interface that populates when user clicks a destination zone
+// this pops up on the side of the web page or something
+// they then select a donut flavor and press Go.
+// If they've already ordered a donut, the site knows and prevents them from clicking on the locations
+// also, if they have a pending order, the site shows a moving icon with a drone and a time estimate (maybe attached to the drone)
+function activateButtons() {
+    $("#deliverbtn").click(function(event) {
+        $.ajax({type: "POST",
+            url: "addjob",
+            data: {
+                flavor: $("#flavor").val(),
+                destination: $("#destination").val()
+            },
+            success: function(result) {
+                message = $.parseJSON(result);
+                notifyUser(message["message"]);
+            }
+        });
+    });
+}

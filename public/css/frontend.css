@@ -5,6 +5,30 @@
     bottom: 0; 
     width: 100%; 
 }
+.popup-title {
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+}
+.flavor-select {
+    width: 125px;
+}
+.deliver-button {
+    width: 100%;
+}
+
+/*User messages*/
+#message {
+    display: none;
+    position: absolute;
+    top: 45px;
+    left: 50px;
+    color: #900;
+    opacity: .7;
+    background-color: #fff;
+    padding-left: 5px;
+    padding-right: 5px;
+}
 
 /*Title and navigation*/
 #header {

@@ -89,7 +89,6 @@ class Controller(object):
                 user_type = DB.get_user_type(username)
                 if user_type >= 0 and user_type <= 2:
                     status = DB.authenticate_user(username,password,req_type=user_type)
-                    print "here",status
                     if status:
                         cherrypy.session[Session.AUTH_KEY] = username
                         if user_type == 0:  # user
@@ -105,7 +104,7 @@ class Controller(object):
     def logout(self):
         cherrypy.session[Session.AUTH_KEY] = None
         raise Web.redirect(Pages.URL["index"])
-    # Add new delivery job
+    # Add new delivery job (this is an AJAX endpoint)
     @cherrypy.expose
     def addjob(self,flavor=None,destination=None):
         username = cherrypy.session.get(Session.AUTH_KEY)
@@ -123,10 +122,10 @@ class Controller(object):
                     "timestamp": Timestamp.now()
                 }
                 success = DB.add_job(new_job)
-                print "received",success
+                return json.dumps({"success":True,"message":"Congrats! Your donut order will soon be on its way."})
             else:
-                print "Nope, you either have a job queued or already got a donut!"
-        raise Web.redirect(Pages.URL["user"])
+                return json.dumps({"success":False,"message":"Sorry, you've already requested a donut!"})
+        raise Web.redirect(Pages.URL["index"])
 
     """ Helper functions """
     # Return page_data dict to pass to Jinja template

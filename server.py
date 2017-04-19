@@ -52,7 +52,7 @@ def print_pid(path):
     pid = os.getpid()
     try:
         pidfile = open(path,"wb")
-        output = "dronesvrpid='" + str(pid) + "'"
+        output = "dronemgrpid='" + str(pid) + "'"
         pidfile.write(output)  # write PID to text file
     finally:
         try:

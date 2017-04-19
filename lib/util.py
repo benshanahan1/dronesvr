@@ -114,10 +114,15 @@ class DBFunc:
     # Queue a new drone delivery job. Inputted parameter job must be a dict containing
     # all required values for the drone delivery (into MySQL table QUEUE).
     def add_job(self, job):
+        self.increment_ordercount(job["username"])  # increment user's ordercount by 1
         keys = ",".join(job.keys())
         vals = "','".join(job.values())  # joins values with quotes (start & end don't have quotes)
         sql = "INSERT INTO jobs ({}) VALUES ('{}')".format(keys,vals)
         return self._query(sql,return_data=False)
+
+    # Increment ordercount field in user table
+    def increment_ordercount(self, username):
+        return self._query("UPDATE user SET ordercount=ordercount+1 WHERE username='{}'".format(username))
 
     ###############################
     ### Database administration ###
