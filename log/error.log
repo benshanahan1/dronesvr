@@ -972,3 +972,24 @@ NameError: global name 'message' is not defined
 [19/Apr/2017:01:09:28] ENGINE Bus EXITING
 [19/Apr/2017:01:09:28] ENGINE Bus EXITED
 [19/Apr/2017:01:09:28] ENGINE Waiting for child threads to terminate...
+[19/Apr/2017:01:11:18] ENGINE Listening for SIGHUP.
+[19/Apr/2017:01:11:18] ENGINE Listening for SIGTERM.
+[19/Apr/2017:01:11:18] ENGINE Listening for SIGUSR1.
+[19/Apr/2017:01:11:18] ENGINE Bus STARTING
+[19/Apr/2017:01:11:18] ENGINE Started monitor thread '_TimeoutMonitor'.
+[19/Apr/2017:01:11:18] ENGINE Started monitor thread 'Autoreloader'.
+[19/Apr/2017:01:11:18] ENGINE Serving on http://0.0.0.0
+[19/Apr/2017:01:11:18] ENGINE Bus STARTED
+[19/Apr/2017:01:11:20]  storage_type is deprecated. Supply storage_class instead
+[19/Apr/2017:01:11:20] ENGINE Started monitor thread 'Session cleanup'.
+[19/Apr/2017:01:11:25] ENGINE Keyboard Interrupt: shutting down bus
+[19/Apr/2017:01:11:25] ENGINE Bus STOPPING
+[19/Apr/2017:01:11:30] ENGINE HTTP Server cherrypy._cpwsgi_server.CPWSGIServer(('0.0.0.0', 80)) shut down
+[19/Apr/2017:01:11:30] ENGINE Stopped thread '_TimeoutMonitor'.
+[19/Apr/2017:01:11:30] ENGINE Stopped thread 'Autoreloader'.
+[19/Apr/2017:01:11:30] ENGINE Stopped thread 'Session cleanup'.
+[19/Apr/2017:01:11:30] ENGINE Bus STOPPED
+[19/Apr/2017:01:11:30] ENGINE Bus EXITING
+[19/Apr/2017:01:11:30] ENGINE Bus EXITED
+[19/Apr/2017:01:11:30] ENGINE Waiting for child threads to terminate...
+[19/Apr/2017:01:11:30] ENGINE Waiting for thread CP Server Thread-6.

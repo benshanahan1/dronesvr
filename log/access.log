@@ -2276,3 +2276,6 @@
 127.0.0.1 - - [19/Apr/2017:01:08:48] "GET /static/css/bootstrap.min.css HTTP/1.1" 304 - "http://localhost/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0"
 127.0.0.1 - - [19/Apr/2017:01:08:48] "GET /static/css/style.css HTTP/1.1" 304 - "http://localhost/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0"
 127.0.0.1 - - [19/Apr/2017:01:08:50] "POST /addjob HTTP/1.1" 200 89 "http://localhost/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0"
+127.0.0.1 - - [19/Apr/2017:01:11:20] "GET / HTTP/1.1" 200 656 "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0"
+127.0.0.1 - - [19/Apr/2017:01:11:20] "GET /static/js/frontend.js HTTP/1.1" 304 - "http://localhost/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0"
+127.0.0.1 - - [19/Apr/2017:01:11:20] "GET /static/css/frontend.css HTTP/1.1" 304 - "http://localhost/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0"
