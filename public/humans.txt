@@ -2,7 +2,8 @@ DroneServer v0.1
 Powered by CherryPy Python Web Framework (http://cherrypy.org/)
 
 Other credit goes to:
-Bootstrap       v3.3.7
-jQuery          v3.1.1
+Bootstrap           3.3.7
+jQuery              3.1.1
+Mapbox              3.0.1
 
-20 January 2017, Benjamin Shanahan.
+19 April 2017, Benjamin Shanahan.

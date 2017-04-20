@@ -7,16 +7,30 @@
 <input type="hidden" id="username" value="{{username}}">
 <!-- Front-end styles and code -->
 <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
-<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+  <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
 <link href='/static/css/frontend.css' rel='stylesheet' />
 
+<!-- Landing page (over map) -->
+<div id="landing-page-overlay">
+    <div id="landing-page-content">
+        <div style="margin-left:35%; width:150px; height:150px; border: solid 1px;">LunaDrop logo</div>
+        <br><br>
+        <select class="form-control">
+            <option>Chocolate</option>
+            <option>Glazed</option>
+            <option>Jelly</option>
+        </select>
+        <p>Some stuff here</p>
+    </div>
+</div>
+
 <!-- Page title and navigation -->
-<div id='map'></div>
+<div id="map"></div>
 <div id="header">
     <span id="title">{{info["name"]}}</span>
     <span id="nav">| {{ generate_nav() }}</span>
 </div>
-<span id="message"></span>
+<span id="notification"></span>
 
 <script src='/static/js/frontend.js'></script>  <!-- must come after map div -->
 {% endblock %}
