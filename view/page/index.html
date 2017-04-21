@@ -10,28 +10,38 @@
   <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
 <link href='/static/css/frontend.css' rel='stylesheet' />
 
-<!-- Landing page (over map) -->
-<div id="landing-page-overlay">
-    <div class="col-md-offset-3 col-md-6" id="landing-page-content">
-        <img src="asdf" class="img-fluid" alt="LunaDrop">
-        <br><br><br><br><br><br><br><br><br>
-        <select class="form-control landing-page-input">
-            <option>Chocolate</option>
-            <option>Glazed</option>
-            <option>Jelly</option>
-        </select>
-        <br>
-        <button class="form-control landing-page-input">Choose a Delivery Site</button>
-    </div>
-</div>
-
-<!-- Page title and navigation -->
-<div id="map"></div>
+<!-- Navigation -->
 <div id="header">
     <span id="title">{{info["name"]}}</span>
     <span id="nav">| {{ generate_nav() }}</span>
 </div>
-<span id="notification"></span>
+<span id="first-notification"></span>
+<span id="second-notification"></span>
 
+<!-- Landing page (over map) -->
+<div id="landing-page-overlay">
+    <div class="col-md-offset-3 col-md-6" id="landing-page-content">
+        <img src="/static/img/favicon.png" class="img-fluid landing-page-logo" alt="LunaDrop">
+        <br>
+        <select id="flavor-select" class="no-bold landing-page-input form-control">
+            <option value="default">Choose a type of donut...</option>
+            <option value="chocolate">Chocolate</option>
+            <option value="glazed">Glazed</option>
+            <option value="cinnamon">Cinnamon</option>
+            <option value="jelly">Jelly</option>
+            <option value="sprinkles">Sprinkles</option>
+        </select>
+        <br>
+        <button class="landing-page-input form-control" onclick="checkFlavorChoice()">Choose Drop Location</button>
+    </div>
+</div>
+
+<!-- Place Order -->
+<div id="place-order">
+    <button id="place-order-button" onclick="addOrder()">Place Order</button>
+</div>
+
+<!-- Map -->
+<div id="map"></div>
 <script src='/static/js/frontend.js'></script>  <!-- must come after map div -->
 {% endblock %}

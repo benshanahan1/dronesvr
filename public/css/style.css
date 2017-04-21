@@ -60,3 +60,11 @@ body {
     font-weight: bold;
     color: red;
 }
+.bold {
+    font-weight: bold;
+}
+
+/*Links*/
+a {
+    color: #990000 !important;
+}

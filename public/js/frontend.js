@@ -1,6 +1,7 @@
 // Get page information
 var username = $("#username").val();
 var selectedDestination = "";
+var selectedFlavor = "";
 
 // Default colors
 var unselectedColor = "#990000";
@@ -52,7 +53,7 @@ var geoJson = {
 
 // Define map
 L.mapbox.accessToken = 'pk.eyJ1IjoiaXp6eWJyYW5kIiwiYSI6ImNpeTdzdHh3ZDAwNncycXN4eTYyY2k3dTAifQ.WzrAcd4xaQ0dd7ur3u0fSQ';
-var map = L.mapbox.map("map","mapbox.dark").setView([41.826192,-71.402693],16);
+var map = L.mapbox.map("map","mapbox.dark",{zoomControl: false}).setView([41.826192,-71.402693],16);
 
 // Define map layer
 var myLayer = L.mapbox.featureLayer().addTo(map);
@@ -60,15 +61,15 @@ myLayer.setGeoJSON(geoJson);
 
 // Define event listeners for interactivity
 myLayer.on("click",function(e) {
-    if (e.layer.feature.properties["selected"]) {
-        e.layer.feature.properties["marker-color"] = unselectedColor;
-        e.layer.feature.properties["selected"] = false;
-        selectedDestination = "";
-    } else {
+    if (!e.layer.feature.properties["selected"]) {
         resetColors();
         e.layer.feature.properties["marker-color"] = selectedColor;
         e.layer.feature.properties["selected"] = true;
+        var fullName = e.layer.feature.properties["name"];
         selectedDestination = e.layer.feature.properties["destination"];
+        var msg = "Delivery at <span class='bold'>" + fullName + "</span>.";
+        secondNotify(msg);
+        showPlaceOrderButton();
     }
     myLayer.setGeoJSON(geoJson);
 });
@@ -113,27 +114,61 @@ function verifySelections() {
 }
 
 // Push alert to notify user. TODO: make this less intrusive!
-function notifyUser(msg) {
-    $("#notification").text(msg).show("fast");
+function firstNotify(msg) {
+    $("#first-notification").html(msg).show("fast");
 }
-function hideNotification() {
-    $("#notification").hide("fast");
+function secondNotify(msg) {
+    $("#second-notification").html(msg).show("fast");
+}
+function hideNotification(num) {
+    if (num == 1) {
+        $("#first-notification").hide("fast");    
+    } else if (num == 2) {
+        $("#second-notification").hide("fast");
+    }
 }
 
 // AJAX functionality to asynchronously add an order
 function addOrder() {
     if (verifySelections()) {
-        $("#deliverbtn").click(function(event) {
-            $.ajax({type: "POST",
-                url: "addorder",
-                data: {
-                    flavor: selectedFlavor,
-                    destination: selectedDestination
-                },
-                success: function(result) {
-                    notification = $.parseJSON(result);
-                }
-            });
-        });
+        alert("Your order has been placed!");
+        // $.ajax({type: "POST",
+        //     url: "addorder",
+        //     data: {
+        //         flavor: selectedFlavor,
+        //         destination: selectedDestination
+        //     },
+        //     success: function(result) {
+        //         alert($.parseJSON(result));
+        //     },
+        //     error: function(err) {
+        //         console.log(err);
+        //     }
+        // });
     }
+}
+
+// Check that user has selected a flavor (and that form is not still set to empty)
+function checkFlavorChoice() {
+    var type = $("#flavor-select").val();
+    if (type != "default") {
+        selectedFlavor = type;
+        showLocationSelectionScreen();
+        var msg = "You've selected a <span class='bold'>" + type + "</span> donut. <a href='#' onclick='showFlavorSelectionScreen()'>Change</a>.";
+        firstNotify(msg);
+    }
+}
+
+// Show / hide location and flavor selection screens
+function showLocationSelectionScreen() {
+    $("#landing-page-overlay").hide("fast");
+}
+function showFlavorSelectionScreen() {
+    $("#landing-page-overlay").show("fast");
+    $("#first-notification").hide("fast");
+}
+
+// Display order button on screen
+function showPlaceOrderButton() {
+    $("#place-order-button").show("fast");
 }

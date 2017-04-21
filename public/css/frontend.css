@@ -1,30 +1,33 @@
 /*Landing page overlay*/
 #landing-page-overlay {
     position: absolute;
-    z-index: 99;
+    z-index: 50;
     top: 0;
     bottom: 0;
     width: 100%;
     height: 100%;
-    background-color: whitesmoke;
-    opacity: .8;
 }
 #landing-page-content {
     /*position: fixed;*/
     top: 50%;
     left: 50%;
     width: 80%;
-    height: 300px;
+    height: 290px;
     /*border: solid 1px;*/
-    background-color: white;
+    background-color: whitesmoke;
+    opacity: .85;
     margin-left: -40%;
     margin-top: -200px;
     text-align: center;
-    border: solid 1.5px #ccc;
-    border-radius: 25px;
+    border: solid 3px white;
+    border-radius: 5px;
 }
-.landing-page-input {
-    opacity: 1;
+.landing-page-input {}
+.landing-page-logo {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 150px;
+    height: 150px;
 }
 
 /*MapBox Front-end display*/
@@ -33,11 +36,7 @@
     top: 0; 
     bottom: 0; 
     width: 100%;
-}
-.popup-title {
-    width: 100%;
-    font-weight: bold;
-    text-align: center;
+    z-index: 0;
 }
 .flavor-select {
     width: 125px;
@@ -47,32 +46,80 @@
 }
 
 /*User messages*/
-#message {
+#first-notification {
     display: none;
     position: absolute;
-    top: 45px;
-    left: 50px;
+    top: 60px;
+    left: 0px;
     color: #900;
     opacity: .7;
     background-color: #fff;
     padding-left: 5px;
-    padding-right: 5px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    z-index: 100;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
-
+#second-notification {
+    display: none;
+    position: absolute;
+    top: 100px;
+    left: 0px;
+    color: #900;
+    opacity: .7;
+    background-color: #fff;
+    padding-left: 5px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    z-index: 100;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
 /*Title and navigation*/
 #header {
     position: absolute;
     top: 10px;
-    left: 50px;
+    left: 0px;
     background-color: #fff;
     padding-left: 5px;
-    padding-right: 5px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     opacity: .7;
+    z-index: 100;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 #title {
     font-weight: bold;
     font-size: 16pt;
+    vertical-align: middle;
 }
 #nav {
     font-size: 12pt;
+    vertical-align: middle;
+}
+#place-order {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    width: 150px;
+    height: 20px;
+    opacity: .85;
+    margin-left: -55px;
+    margin-top: -10px;
+    z-index: 100;
+}
+#place-order-button {
+    display: none;
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: bold;
+    opacity: .9;
 }
