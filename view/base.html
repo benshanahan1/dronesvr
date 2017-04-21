@@ -17,7 +17,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{info['name']}} {{info['version']}}: {{info['description']}}">
-    
     <link rel="icon" href="/static/img/favicon.png">
 
     <title>{{info["name"]}}</title>
@@ -25,7 +24,7 @@
     <script src="/static/js/jquery-3.1.1.min.js"></script>
     <script src="/static/js/jquery-ui.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
-    <!-- <script src="/static/js/jasny-bootstrap.min.js"></script> -->
+    <script src="/static/js/bootstrap2-toggle.min.js"></script>
     <script src="/static/js/globals.js"></script>
     
 </head>
@@ -39,13 +38,14 @@
 
 <div class="container">
 
+    {% if active_page != "demo" %}
     <div class="page-header">
-        <!-- <div class="site-title">{{info["name"]}}</div> -->
         {% block header %}{% endblock %}
         <div class="navigation">
             {{ generate_nav() }}
         </div>
     </div>
+    {% endif %}
 
     <div class="page-header">
         {% block content %}{% endblock %}
@@ -64,7 +64,7 @@
 <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 <link href="/static/css/jquery-ui.min.css" rel="stylesheet">
 <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-<!-- <link href="/static/css/jasny-bootstrap.min.css" rel="stylesheet"> -->
+<link href="/static/css/bootstrap2-toggle.min.css" rel="stylesheet">
 <link href="/static/css/style.css" rel="stylesheet">
 
 </body>

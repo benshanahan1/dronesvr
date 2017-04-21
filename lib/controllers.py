@@ -28,14 +28,18 @@ class Controller(object):
     @cherrypy.expose
     def index(self):
         tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["index"])
-        username = cherrypy.session.get(Session.AUTH_KEY)
         page_data = self._get_page_data()
         return tmpl.render(page_data)
     # About page
     @cherrypy.expose
     def about(self):
         tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["about"])
-        username = cherrypy.session.get(Session.AUTH_KEY)
+        page_data = self._get_page_data()
+        return tmpl.render(page_data)
+    # Internet Connectivity Demo
+    @cherrypy.expose
+    def demo(self):
+        tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["demo"])
         page_data = self._get_page_data()
         return tmpl.render(page_data)
     # Authorization page (login prompt)

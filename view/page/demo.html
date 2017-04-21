@@ -1,0 +1,50 @@
+{% extends "view/base.html" %}
+{% set active_page = "demo" %}
+
+
+{% block content %}
+
+<script src="/static/js/demo.js"></script>
+
+<h3>LunaDrop Demo WebApp</h3>
+
+<div class="container switches">
+
+    <br>
+
+    <!-- Arm/disarm -->
+    <div class="row">
+        <div class="col col-md-3">
+            <label for="arm-switch">Status</label>
+        </div>
+        <div class="col col-md-6">
+            <input id="arm-switch" data-toggle="toggle" data-on="Armed" data-off="Disarmed" data-height="50px" data-width="90%" type="checkbox" onclick="armHandler()">
+        </div>
+    </div>
+    <div class="row"><br></div>
+
+    <!-- Spin up/down motors -->
+    <div class="row">
+        <div class="col col-md-3">
+            <label for="motor-switch">Motors</label>
+        </div>
+        <div class="col col-md-6">
+            <input id="motor-switch" data-toggle="toggle" data-on="On" data-off="Off" data-height="50px" data-width="90%" type="checkbox">
+        </div>
+    </div>
+    <div class="row"><br></div>
+
+    <!-- Open/close gripper -->
+    <div class="row">
+        <div class="col col-md-3">
+            <label for="gripper-switch">Gripper</label>
+        </div>
+        <div class="col col-md-6">
+            <input id="gripper-switch" data-toggle="toggle" data-on="Open" data-off="Close" data-height="50px" data-width="90%" type="checkbox">
+        </div>
+    </div>
+    <div class="row"><br></div>
+
+</div>
+
+{% endblock %}

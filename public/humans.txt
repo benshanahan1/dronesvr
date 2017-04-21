@@ -3,6 +3,7 @@ Powered by CherryPy Python Web Framework (http://cherrypy.org/)
 
 Other credit goes to:
 Bootstrap           3.3.7
+Bootstrap Toggle    2.2.2
 jQuery              3.1.1
 Mapbox              3.0.1
 

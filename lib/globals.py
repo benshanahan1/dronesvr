@@ -39,6 +39,7 @@ class Pages:
     TEMPLATE = {
         "index": "view/page/index.html",
         "about": "view/page/about.html",
+        "demo": "view/page/demo.html",
         "auth": "view/page/auth.html",
         "super": "view/page/super.html",
         "admin": "view/page/admin.html"
@@ -47,6 +48,7 @@ class Pages:
     URL = {
         "index": "/",
         "about": "/about",
+        "demo": "/demo",
         "auth": "/auth",
         "super": "/super",
         "admin": "/admin"
