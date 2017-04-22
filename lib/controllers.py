@@ -38,10 +38,18 @@ class Controller(object):
         return tmpl.render(page_data)
     # Internet Connectivity Demo
     @cherrypy.expose
-    def demo(self):
-        tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["demo"])
-        page_data = self._get_page_data()
-        return tmpl.render(page_data)
+    def demo(self,command=None):
+        if command is None:
+            tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["demo"])
+            username = cherrypy.session.get(Session.AUTH_KEY)
+            if username is not None and DB.check_permissions(username,2):
+                page_data = self._get_page_data()
+                return tmpl.render(page_data)
+            else:
+                raise Web.redirect(Pages.URL["index"])
+        else:
+            # TODO: verify that command is valid
+            return command
     # Authorization page (login prompt)
     @cherrypy.expose
     def auth(self):

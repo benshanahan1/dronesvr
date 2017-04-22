@@ -1,10 +1,18 @@
+var droneUID = "dUID";  // Luna UID
+
+var remote = false;  // remote control switch
+
+
 // Event listeners
 $(document).ready(function() {
     $("#arm-switch").change(armHandler);
     $("#motor-switch").change(motorHandler);
     $("#gripper-switch").change(gripperHandler);
     disableSwitch("#motor-switch");
+    updateCommand();
 });
+
+
 
 // Arm/disarm switch
 function armHandler() {
@@ -17,63 +25,73 @@ function armHandler() {
 }
 function arm() {
     console.log("Arming.");
-    // TODO: send AJAX command to API, on success, enable switches on page
+    post("arm");
     enableSwitch("#motor-switch");  // this should be called on AJAX success
 }
 function disarm() {
     console.log("Disarming.");
-    // TODO: send AJAX command to API, on success, disable switches on page
-    motorsOff(true);
+    post("disarm");
+    remote = true;
+    motorsOff();
+    remote = false;
     disableSwitch("#motor-switch");  // called on AJAX success
 }
 
+
+
 // Motor switch
 function motorHandler() {
-    var checked = $("#motor-switch").prop("checked");
-    if (checked) {
-        motorsOn();
-    } else {
-        motorsOff();
+    if (!remote) {
+        var checked = $("#motor-switch").prop("checked");
+        if (checked) {
+            motorsOn();
+        } else {
+            motorsOff();
+        }
     }
 }
-function motorsOn(remote) {
+function motorsOn() {
     console.log("Motors spinning up.");
-    // TODO: AJAX
+    post("motorsOn");
     if (remote) {
         $('#motor-switch').prop("checked",true).change();
     }
 }
-function motorsOff(remote) {
+function motorsOff() {
     console.log("Motors spinning down.");
-    // TODO: AJAX
+    post("motorsOff");
     if (remote) {
         $('#motor-switch').prop("checked",false).change();
     }
 }
 
+
+
 // Gripper switch
 function gripperHandler() {
     var checked = $("#gripper-switch").prop("checked");
     if (checked) {
-        gripperOpen();
-    } else {
         gripperClose();
+    } else {
+        gripperOpen();
     }
 }
-function gripperOpen(remote) {
+function gripperOpen() {
     console.log("Gripper opening.");
-    // TODO: AJAX
+    post("gripperOpen");
     if (remote) {
         $('#gripper-switch').prop("checked",true).change();
     }
 }
-function gripperClose(remote) {
+function gripperClose() {
     console.log("Gripper closing.");
-    // TODO: AJAX
+    post("gripperClose");
     if (remote) {
         $('#gripper-switch').prop("checked",false).change();
     }
 }
+
+
 
 // Toggle page switches
 function enableSwitch(id) {
@@ -81,4 +99,22 @@ function enableSwitch(id) {
 }
 function disableSwitch(id) {
     $(id).prop("disabled",true);
+}
+
+
+
+// Update current drone command from server
+function updateCommand() {
+    $.get("/api?uid=" + droneUID)
+        .done(function(result) {
+            $("#current-command").text(result.command);
+        });
+    // setInterval(updateCommand,5000);  // queue next update
+}
+function post(cmd) {
+    $.post("/demo",{command: cmd})
+        .done(function(result) {
+            console.log("JSON response: " + result);
+            return result;
+        });
 }
