@@ -1,9 +1,17 @@
 {% extends "view/base.html" %}
 
+{% set active_page = "admin" %}
+
 {% block header %}
 <div class="page-title">Welcome, {{nickname}}.</div>
 {% endblock %}
 
 {% block content %}
-<h3>Administrator Landing Page</h3>
+<h3>LunaDrop Admin Page</h3>
+<fieldset>
+<legend>Actions</legend>
+    <ul>
+        <li><a href="demo">LunaDrop Demo Page</a></li>
+    </ul>
+</fieldset>
 {% endblock %}

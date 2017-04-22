@@ -1,6 +1,6 @@
-var droneUID = "dUID";  // Luna UID
-
+var droneUID = "luna";  // Luna UID
 var remote = false;  // remote control switch
+
 
 
 // Event listeners
@@ -31,9 +31,12 @@ function arm() {
 function disarm() {
     console.log("Disarming.");
     post("disarm");
-    remote = true;
-    motorsOff();
-    remote = false;
+    var checked = $("#motor-switch").prop("checked");
+    if (checked) {
+        remote = true;
+        motorsOff();
+        remote = false;
+    }
     disableSwitch("#motor-switch");  // called on AJAX success
 }
 
@@ -115,6 +118,7 @@ function post(cmd) {
     $.post("/demo",{command: cmd})
         .done(function(result) {
             console.log("JSON response: " + result);
+            updateCommand();  // update display
             return result;
         });
 }

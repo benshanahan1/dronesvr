@@ -36,20 +36,6 @@ class Controller(object):
         tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["about"])
         page_data = self._get_page_data()
         return tmpl.render(page_data)
-    # Internet Connectivity Demo
-    @cherrypy.expose
-    def demo(self,command=None):
-        if command is None:
-            tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["demo"])
-            username = cherrypy.session.get(Session.AUTH_KEY)
-            if username is not None and DB.check_permissions(username,2):
-                page_data = self._get_page_data()
-                return tmpl.render(page_data)
-            else:
-                raise Web.redirect(Pages.URL["index"])
-        else:
-            # TODO: verify that command is valid
-            return command
     # Authorization page (login prompt)
     @cherrypy.expose
     def auth(self):
@@ -118,7 +104,7 @@ class Controller(object):
         raise Web.redirect(Pages.URL["index"])
     # Add new delivery job (this is an AJAX endpoint)
     @cherrypy.expose
-    def addjob(self,flavor=None,destination=None):
+    def addorder(self,flavor=None,destination=None):
         username = cherrypy.session.get(Session.AUTH_KEY)
         if DB.check_permissions(username,0) and \
            flavor is not None and destination is not None:
@@ -138,6 +124,23 @@ class Controller(object):
             else:
                 return json.dumps({"success":False,"message":"Sorry, you've already requested a donut!"})
         raise Web.redirect(Pages.URL["index"])
+    # Internet Connectivity Demo
+    @cherrypy.expose
+    def demo(self,command=None):
+        demoDroneUID = "luna"
+        username = cherrypy.session.get(Session.AUTH_KEY)
+        if username is not None and DB.check_permissions(username,2):
+            if command is None or command == "":
+                tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["demo"])
+                page_data = self._get_page_data()
+                return tmpl.render(page_data)
+            else:
+                # TODO: verify that command is valid
+                DB.set("command",command,"drones",demoDroneUID)
+                demoDroneName = DB.get("name","drones",demoDroneUID)
+                return "%s set to %s" % (demoDroneName,command)
+        else:
+            raise Web.redirect(Pages.URL["index"])
 
     """ Helper functions """
     # Return page_data dict to pass to Jinja template

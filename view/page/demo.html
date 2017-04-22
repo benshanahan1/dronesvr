@@ -7,15 +7,16 @@
 <script src="/static/js/demo.js"></script>
 
 <h3>LunaDrop Demo WebApp</h3>
+<p>Back to <a href="/admin">admin</a> page.</p>
 
-<div class="container box">
+<div class="container box" onclick="updateCommand()">
 
     <div class="row">
         <div class="col col-sm-6">
-            <label for="current-command">Current Command:</label> 
+            <label for="current-command">Current Command (<em>click to refresh</em>):</label> 
         </div>
         <div class="col col-sm-6">
-            <span id="current-command" onclick="updateCommand()">No data received.</span>
+            <span id="current-command">Database offline.</span>
         </div>
     </div>
 

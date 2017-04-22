@@ -1,9 +1,17 @@
 {% extends "view/base.html" %}
 
+{% set active_page = "super" %}
+
 {% block header %}
 <div class="page-title">Welcome, {{nickname}}.</div>
 {% endblock %}
 
 {% block content %}
-<h3>Supervisor Landing Page</h3>
+<h3>LunaDrop Supervisor Page</h3>
+<fieldset>
+<legend>Actions</legend>
+    <ul>
+        <li><a href="#">Drone Management</a></li>
+    </ul>
+</fieldset>
 {% endblock %}

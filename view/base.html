@@ -3,9 +3,12 @@
     <a href="/" {% if active_page=="index" %}class="active"{% endif %}>Deliver</a> |
     <a href="/about" {% if active_page=="about" %}class="active"{% endif %}>About</a> | 
     {% if username %}
-        <a href="/logout">Sign Out</a>
+        <a href="/profile">Profile</a> | 
+    {% endif %}
+    {% if username %}
+        <a href="/logout">Logout</a>
     {% else %}
-        <a href="/auth" {% if active_page=="auth" %}class="active"{% endif %}>Sign In</a>
+        <a href="/auth" {% if active_page=="auth" %}class="active"{% endif %}>Login</a>
     {% endif %}
 {% endmacro %}
 
