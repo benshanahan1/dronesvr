@@ -23,6 +23,7 @@
     <div class="col-md-offset-3 col-md-6" id="landing-page-content">
         <img src="/static/img/favicon.png" class="img-fluid landing-page-logo" alt="LunaDrop">
         <br>
+        {% if username %}
         <select id="flavor-select" class="no-bold landing-page-input form-control">
             <option value="default">Choose a type of donut...</option>
             <option value="chocolate">Chocolate</option>
@@ -33,6 +34,11 @@
         </select>
         <br>
         <button class="landing-page-input form-control" onclick="checkFlavorChoice()">Choose Drop Location</button>
+        {% else %}
+        <h3 style="margin-top:0px;font-weight:bold;">LunaDrop</h3>
+        <h4 style="font-style:italic;">Autonomous Delivery System</h4>
+        <p>Please <a href="/auth">login</a> or <a href="/auth?action=register">register</a> to order.</p>
+        {% endif %}
     </div>
 </div>
 

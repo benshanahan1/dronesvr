@@ -11,7 +11,7 @@ DB = DBFunc()
 DRONES = Database.DRONES_TABLE
 ZONES = Database.ZONES_TABLE
 TYPES = Database.TYPES_TABLE
-JOBS = Database.JOBS_TABLE
+TASKS = Database.TASKS_TABLE
 
 """ The API object enables realtime requests of drone state """
 @cherrypy.expose
@@ -53,14 +53,14 @@ class API(object):
                     "description": DB.get("description",ZONES,zone_uid)
                 }
 
-            def _get_job(uid):
-                job_uid = DB.get("job",DRONES,uid)
+            def _get_task(uid):
+                task_uid = DB.get("task",DRONES,uid)
                 return {
-                    "uid": DB.get("uid",JOBS,job_uid),
-                    "username": DB.get("username",JOBS,job_uid),
-                    "destination": DB.get("destination",JOBS,job_uid),
-                    "flavor": DB.get("flavor",JOBS,job_uid),
-                    "timestamp": DB.get("timestamp",JOBS,job_uid)
+                    "uid": DB.get("uid",TASKS,task_uid),
+                    "drone": DB.get("drone",TASKS,task_uid),
+                    "orders": DB.get("orders",TASKS,task_uid),
+                    "departuretime": DB.get("departuretime",TASKS,task_uid),
+                    "arrivaltime": DB.get("arrivaltime",TASKS,task_uid)
                 }
 
             def _get_command(uid):
@@ -103,9 +103,9 @@ class API(object):
             elif subset == "zone":
                 # Return information related to drone current/previous zone (TODO clarify)
                 return json.dumps(_get_zone(uid))
-            elif subset == "job":
+            elif subset == "task":
                 # Return information related to drone's current job
-                return json.dumps(_get_job(uid))
+                return json.dumps(_get_task(uid))
             elif subset == "state":
                 # Return information related to drone state
                 return json.dumps(_get_state(uid))
@@ -139,29 +139,28 @@ class API(object):
             cherrypy.response.status = 201  # Created
             return json.dumps(state)
         else:
-            # print "{}, {}, {}".format(uid,auth,state)  # debug only
             cherrypy.response.status = 401  # Unauthorized
             return "Unauthorized"
 
-    """ Queue new request (user request for a drone pickup / dropoff) """
-    def PUT(self, username=None, password=None, job=None):
+    """ Queue new order (user request for a drone pickup / dropoff) """
+    def PUT(self, username=None, password=None, order=None):
         if username is not None and password is not None:
             # Authenticate username and password. Allow all credential types (user,mod,admin).
             if DB.authenticate_user(username,password):
-                if job is not None:
-                    # Parse the job
-                    job = json.loads(job)  # JSON string to dict
-                    uid = job["uid"]  # have the UID handy
+                if order is not None:
+                    # Parse the order
+                    order = json.loads(order)  # JSON string to dict
+                    uid = order["uid"]  # have the UID handy
                     # Check that the UID doesn't exist in the queue already
                     if not DB.uid_exists(uid,QUEUE):
-                        DB.queue_job(job)  # queue the job
+                        DB.queue_order(order)  # queue the order
                         cherrypy.response.status = 201  # item queued
-                        return json.dumps(job)  # echo back to client what was just PUT
+                        return json.dumps(order)  # echo back to client what was just PUT
                     else:
                         cherrypy.response.status = 409  # conflict
-                        return "Queue job already exists with UID ({}).".format(uid)
+                        return "Queue order already exists with UID ({}).".format(uid)
                 else:
                     cherrypy.response.status = 200  # OK
-                    return "No job received."
+                    return "No order received."
         cherrypy.response.status = 401  # unauthorized
         return "Unauthorized"

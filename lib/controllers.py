@@ -38,7 +38,7 @@ class Controller(object):
         return tmpl.render(page_data)
     # Authorization page (login prompt)
     @cherrypy.expose
-    def auth(self):
+    def auth(self,action=None):
         tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["auth"])
         username = cherrypy.session.get(Session.AUTH_KEY)
         if username is not None:
@@ -53,6 +53,7 @@ class Controller(object):
                 raise Web.redirect(Pages.URL["auth"])
         else:
             page_data = self._get_page_data()
+            page_data["action"] = action
             return tmpl.render(page_data)
     # Supervisor landing page
     @cherrypy.expose
@@ -97,6 +98,12 @@ class Controller(object):
                             raise Web.redirect(Pages.URL["admin"])
         cherrypy.session[Session.AUTH_KEY] = None
         raise Web.redirect(Pages.URL["auth"])
+    # New user registration
+    @cherrypy.expose
+    def register(self,email=None,username=None,nickname=None,password=None,**kwargs):
+        # TODO: implement new user registration
+        print "New user registration request: %s (%s)" % (username, email)
+        return "Not yet implemented. <a href='/'>Back</a>."
     # Logout endpoint (removes logged-in user session and redirects)
     @cherrypy.expose
     def logout(self):
@@ -112,19 +119,22 @@ class Controller(object):
             # values are valid (match pre-existing values)
             # Determine that user has not already queued a job
             if DB.user_can_queue(username):  # make sure user can queue a job!
-                new_job = {
-                    "uid": UID.generate("job"),  # generate random job UID
+                new_order = {
+                    "uid": UID.generate("order"),  # generate random job UID
                     "username": username,
                     "flavor": flavor,
                     "destination": destination,
                     "timestamp": Timestamp.now()
                 }
-                success = DB.add_job(new_job)
+                success = DB.add_order(new_order)
                 return json.dumps({"success":True,"message":"Congrats! Your donut order will soon be on its way."})
             else:
                 return json.dumps({"success":False,"message":"Sorry, you've already requested a donut!"})
         raise Web.redirect(Pages.URL["index"])
     # Internet Connectivity Demo
+    # Note: we don't use the API is so that the auth-key
+    # for the drone remains concealed (if we do stuff server-side and 
+    # directly interface with the database, we don't need it)
     @cherrypy.expose
     def demo(self,command=None):
         demoDroneUID = "luna"

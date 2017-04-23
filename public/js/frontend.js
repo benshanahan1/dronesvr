@@ -131,20 +131,12 @@ function hideNotification(num) {
 // AJAX functionality to asynchronously add an order
 function addOrder() {
     if (verifySelections()) {
-        alert("Your order has been placed!");
-        // $.ajax({type: "POST",
-        //     url: "addorder",
-        //     data: {
-        //         flavor: selectedFlavor,
-        //         destination: selectedDestination
-        //     },
-        //     success: function(result) {
-        //         alert($.parseJSON(result));
-        //     },
-        //     error: function(err) {
-        //         console.log(err);
-        //     }
-        // });
+        // alert("Your order has been placed!");
+        $.post("/addorder", {flavor: selectedFlavor, destination: selectedDestination})
+            .done(function(result) {
+                var parsed = $.parseJSON(result);
+                alert(parsed.message);
+            });
     }
 }
 

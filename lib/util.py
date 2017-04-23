@@ -101,23 +101,22 @@ class DBFunc:
     ### Job queueing ###
     ####################
 
-    # Check if username is present in the jobs table. Only one delivery request
+    # Check if username is present in the orders table. Only one delivery request
     # per user can be queued at a time. Function returns true if there is 
-    # no job present in the jobs queue belonging to a user with a matching username
+    # no order present in the orders queue belonging to a user with a matching username
     def user_can_queue(self, username):
-        r1 = self._query("SELECT username FROM jobs WHERE username=%s",(username,))
-        in_job_queue = len(r1) is not 0
+        r1 = self._query("SELECT username FROM orders WHERE username=%s",(username,))
+        in_order_queue = len(r1) is not 0
         n_orders = self._query("SELECT ordercount FROM user WHERE username=%s",(username,))
-        return not in_job_queue and n_orders == 0
-        # TODO: add ordercount field to user table to keep track of orders per each user
+        return not in_order_queue and n_orders == 0
 
-    # Queue a new drone delivery job. Inputted parameter job must be a dict containing
+    # Queue a new drone delivery order. Inputted parameter order must be a dict containing
     # all required values for the drone delivery (into MySQL table QUEUE).
-    def add_job(self, job):
-        self.increment_ordercount(job["username"])  # increment user's ordercount by 1
-        keys = ",".join(job.keys())
-        vals = "','".join(job.values())  # joins values with quotes (start & end don't have quotes)
-        sql = "INSERT INTO jobs ({}) VALUES ('{}')".format(keys,vals)
+    def add_order(self, order):
+        self.increment_ordercount(order["username"])  # increment user's ordercount by 1
+        keys = ",".join(order.keys())
+        vals = "','".join(order.values())  # joins values with quotes (start & end don't have quotes)
+        sql = "INSERT INTO orders ({}) VALUES ('{}')".format(keys,vals)
         return self._query(sql,return_data=False)
 
     # Increment ordercount field in user table
@@ -184,8 +183,8 @@ class UID:
             c = UIDConst.ZONE_ID
         elif uid_type == "type":
             c = UIDConst.TYPE_ID
-        elif uid_type == "job":
-            c = UIDConst.JOB_ID
+        elif uid_type == "order":
+            c = UIDConst.ORDER_ID
         return c + randStr
 
 

@@ -23,7 +23,8 @@ class Database:
     DRONES_TABLE = "drones"
     ZONES_TABLE = "zones"
     TYPES_TABLE = "types"
-    JOBS_TABLE = "jobs"
+    ORDERS_TABLE = "orders"
+    TASKS_TABLE = "tasks"
     USERS_TABLE = "user"
 
 class UIDConst:
@@ -31,7 +32,8 @@ class UIDConst:
     DRONE_ID = "D"  # at beginning of each drone UID
     ZONE_ID = "Z"  # at beginning of each zone UID
     TYPE_ID = "T"  # at beginning of each type UID
-    JOB_ID = "J"  # at beginning of each job UID  
+    ORDER_ID = "O"  # at beginning of each order UID  
+    TASK_ID = "K"  # at beginning of each task UID
     USER_ID = "U"  # at beginning of each user UID
 
 class Pages:

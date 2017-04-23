@@ -64,7 +64,11 @@ body {
     font-weight: bold;
 }
 
+#accordion .ui-icon { display: none; }
+#accordion .ui-accordion-header a { padding-left: 0; }
+
 /*Links*/
 a {
     color: #990000 !important;
 }
+
