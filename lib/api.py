@@ -44,23 +44,20 @@ class API(object):
                     "description": DB.get("description",TYPES,type_uid)
                 }
 
-            def _get_zone(uid):
-                zone_uid = DB.get("zone",DRONES,uid)
-                return {
-                    "latitude": DB.get("latitude",ZONES,zone_uid),
-                    "longitude": DB.get("longitude",ZONES,zone_uid),
-                    "altitude": DB.get("altitude",ZONES,zone_uid),
-                    "description": DB.get("description",ZONES,zone_uid)
-                }
-
             def _get_task(uid):
                 task_uid = DB.get("task",DRONES,uid)
                 return {
                     "uid": DB.get("uid",TASKS,task_uid),
                     "drone": DB.get("drone",TASKS,task_uid),
                     "orders": DB.get("orders",TASKS,task_uid),
+                    "destination": DB.get("destination",TASKS,task_uid),  # maingreen, ruthsimmons, quietgreen
                     "departuretime": DB.get("departuretime",TASKS,task_uid),
                     "arrivaltime": DB.get("arrivaltime",TASKS,task_uid)
+                }
+
+            def _get_mission(uid):
+                return {
+                    "activemission": DB.get("activemission",DRONES,uid)
                 }
 
             def _get_command(uid):
@@ -100,9 +97,9 @@ class API(object):
             elif subset == "type":
                 # Return information related to drone type
                 return json.dumps(_get_type(uid))
-            elif subset == "zone":
-                # Return information related to drone current/previous zone (TODO clarify)
-                return json.dumps(_get_zone(uid))
+            elif subset == "mission":
+                # Return information related to drone active mission
+                return json.dumps(_get_mission(uid))
             elif subset == "task":
                 # Return information related to drone's current job
                 return json.dumps(_get_task(uid))
