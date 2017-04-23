@@ -31,13 +31,10 @@ function arm() {
 function disarm() {
     console.log("Disarming.");
     post("disarm");
-    var checked = $("#motor-switch").prop("checked");
-    if (checked) {
-        remote = true;
-        motorsOff();
-        remote = false;
-    }
-    disableSwitch("#motor-switch");  // called on AJAX success
+    remote = true;  // disable motorHandler
+    $('#motor-switch').prop("checked",false).change();
+    disableSwitch("#motor-switch");
+    remote = false;
 }
 
 
