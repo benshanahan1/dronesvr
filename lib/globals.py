@@ -11,7 +11,7 @@ class App:
     INFO = {
         "name": "LunaDrop",
         "version": "v1.0",
-        "authors": "Benjamin Shanahan, Isaiah Brand",
+        "authors": "Benjamin Shanahan & Isaiah Brand",
         "author_emails": "benjamin_shanahan@brown.edu, brand@brown.edu",
         "full_url": "http://lunadrop.com/",
         "short_url": "lunadrop.com",
