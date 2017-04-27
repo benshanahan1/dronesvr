@@ -7,6 +7,7 @@ var remote = false;  // remote control switch
 $(document).ready(function() {
     disableSwitch("#motor-switch");
     refresh();
+    setInterval(refresh,500)  // update every 1 second
 });
 function armListener() {
     var armSwitch = $("#arm-switch").prop("checked");
@@ -124,8 +125,6 @@ function refresh() {
                 switchOn("#motor-switch");
             }
         });
-    // setInterval(refresh,5000);  // queue next update
-    console.log("refresh");
 }
 function post(cmd) {
     $.post("/demo",{command: cmd})
