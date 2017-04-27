@@ -9,7 +9,7 @@
 <h3>LunaDrop Demo WebApp</h3>
 <p>Back to <a href="/admin">admin</a> page.</p>
 
-<div class="container box" onclick="updateCommand()">
+<div class="container box" onclick="refresh()">
 
     <div class="row">
         <div class="col col-sm-6">
@@ -33,8 +33,8 @@
         <div class="col col-sm-6">
             <label for="arm-switch">Status</label>
         </div>
-        <div class="col col-sm-6">
-            <input id="arm-switch" data-toggle="toggle" data-on="Armed" data-off="Disarmed" data-height="40px" data-width="90%" type="checkbox" onclick="armHandler()">
+        <div class="col col-sm-6" onclick="armListener()">
+            <input id="arm-switch" data-toggle="toggle" data-on="Armed" data-off="Disarmed" data-height="40px" data-width="90%" type="checkbox">
         </div>
     </div>
     <div class="row"><br></div>
@@ -44,7 +44,7 @@
         <div class="col col-sm-6">
             <label for="motor-switch">Motors</label>
         </div>
-        <div class="col col-sm-6">
+        <div class="col col-sm-6" onclick="motorListener()">
             <input id="motor-switch" data-toggle="toggle" data-on="On" data-off="Off" data-height="40px" data-width="90%" type="checkbox">
         </div>
     </div>
@@ -55,7 +55,7 @@
         <div class="col col-sm-6">
             <label for="gripper-switch">Gripper</label>
         </div>
-        <div class="col col-sm-6">
+        <div class="col col-sm-6" onclick="gripperListener()">
             <input id="gripper-switch" data-toggle="toggle" data-on="Close" data-off="Open" data-height="40px" data-width="90%" type="checkbox">
         </div>
     </div>

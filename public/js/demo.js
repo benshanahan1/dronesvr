@@ -5,24 +5,37 @@ var remote = false;  // remote control switch
 
 // Event listeners
 $(document).ready(function() {
-    $("#arm-switch").change(armHandler);
-    $("#motor-switch").change(motorHandler);
-    $("#gripper-switch").change(gripperHandler);
     disableSwitch("#motor-switch");
-    updateCommand();
+    refresh();
 });
-
-
-
-// Arm/disarm switch
-function armHandler() {
-    var checked = $("#arm-switch").prop("checked");
-    if (checked) {
+function armListener() {
+    var armSwitch = $("#arm-switch").prop("checked");
+    if (!armSwitch) {
         arm();
     } else {
         disarm();
     }
 }
+function motorListener() {
+    var motorSwitch = $("#motor-switch").prop("checked");
+    if (!motorSwitch) {
+        motorsOn();
+    } else {
+        motorsOff();
+    }
+}
+function gripperListener() {
+    var gripperSwitch = $("#gripper-switch").prop("checked");
+    if (gripperSwitch) {
+        gripperClose();
+    } else {
+        gripperOpen();
+    }
+}
+
+
+
+// Arm/disarm switch
 function arm() {
     console.log("Arming.");
     post("arm");
@@ -32,7 +45,7 @@ function disarm() {
     console.log("Disarming.");
     post("disarm");
     remote = true;  // disable motorHandler
-    $('#motor-switch').prop("checked",false).change();
+    switchOff("#motor-switch");
     disableSwitch("#motor-switch");
     remote = false;
 }
@@ -40,82 +53,85 @@ function disarm() {
 
 
 // Motor switch
-function motorHandler() {
-    if (!remote) {
-        var checked = $("#motor-switch").prop("checked");
-        if (checked) {
-            motorsOn();
-        } else {
-            motorsOff();
-        }
-    }
-}
 function motorsOn() {
     console.log("Motors spinning up.");
     post("motorsOn");
     if (remote) {
-        $('#motor-switch').prop("checked",true).change();
+        switchOn("#motor-switch");
     }
 }
 function motorsOff() {
     console.log("Motors spinning down.");
     post("motorsOff");
     if (remote) {
-        $('#motor-switch').prop("checked",false).change();
+        switchOff("#motor-switch");
     }
 }
 
 
 
 // Gripper switch
-function gripperHandler() {
-    var checked = $("#gripper-switch").prop("checked");
-    if (checked) {
-        gripperClose();
-    } else {
-        gripperOpen();
-    }
-}
 function gripperOpen() {
     console.log("Gripper opening.");
     post("gripperOpen");
     if (remote) {
-        $('#gripper-switch').prop("checked",true).change();
+        switchOn("#gripper-switch");
     }
 }
 function gripperClose() {
     console.log("Gripper closing.");
     post("gripperClose");
     if (remote) {
-        $('#gripper-switch').prop("checked",false).change();
+        switchOff("#gripper-switch");
     }
 }
 
 
 
-// Toggle page switches
+// Enable/disable page switches
 function enableSwitch(id) {
     $(id).prop("disabled",false);
 }
 function disableSwitch(id) {
     $(id).prop("disabled",true);
 }
+// Toggle page switches on/off
+function switchOn(id) {
+    $(id).prop("checked",true).change();
+}
+function switchOff(id) {
+    $(id).prop("checked",false).change();
+}
 
 
 
-// Update current drone command from server
-function updateCommand() {
-    $.get("/api?uid=" + droneUID)
+// Pull from database and refresh switches and command
+function refresh() {
+    $.get("/api?uid=" + droneUID + "&subset=state")
         .done(function(result) {
+            // Available: result.command, result.voltage, result.status, result.error
             $("#current-command").text(result.command);
+            var status = result.status;
+            if (status == "disarmed") {
+                switchOff("#arm-switch");
+                switchOff("#motor-switch");
+            } else if (status == "armed") {
+                switchOn("#arm-switch");
+                switchOff("#motor-switch");
+            } else if (status == "throttled") {
+                switchOn("#arm-switch");
+                enableSwitch("#motor-switch");
+                switchOn("#motor-switch");
+            }
         });
-    // setInterval(updateCommand,5000);  // queue next update
+    // setInterval(refresh,5000);  // queue next update
+    console.log("refresh");
 }
 function post(cmd) {
     $.post("/demo",{command: cmd})
         .done(function(result) {
             console.log("JSON response: " + result);
-            updateCommand();  // update display
+            refresh();  // update display
             return result;
         });
 }
