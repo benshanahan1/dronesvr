@@ -64,6 +64,11 @@ body {
     font-weight: bold;
 }
 
+.about-page {
+    margin-bottom: 10px;
+    margin-right: 5px;
+}
+
 #accordion .ui-icon { display: none; }
 #accordion .ui-accordion-header a { padding-left: 0; }
 
