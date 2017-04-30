@@ -63,6 +63,9 @@ body {
 .bold {
     font-weight: bold;
 }
+.luna {
+    font-weight: bold;
+    color: #39bafc;
 
 .about-page {
     margin-bottom: 10px;
@@ -74,6 +77,16 @@ body {
 
 /*Links*/
 a {
-    color: #990000 !important;
+    color: #39bafc !important;
+}*/
+/*a, a:visited {
+    color: #39bafc !important;
 }
 
+a:hover, a:active {
+    color: #39bafc !important;
+}
+
+a {
+    color: #39bafc !important;
+}

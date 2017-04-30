@@ -3,7 +3,7 @@
 {% set active_page = "about" %}
 
 {% block header %}
-<div class="page-title">About {{info["name"]}}</div>
+<div class="page-title">About <span class="luna">{{info["name"]}}</span></div>
 {% endblock %}
 
 {% block content %}
@@ -13,63 +13,63 @@
     <div class="row about-page">
         <h3>Why?</h3>
         <div>
-            Delivery by drone is 
+            You've heard the gig before. You place an order, box gets loaded onto autonomous drone, drone flies to you immediately and you have your package only 15 seconds after you confirmed payment. Amazon announced their drone delivery in 2012, and somehow 5 years later we're still waiting around for our rich neighbor's order of emergency toilet paper to fall out of the sky.
         </div>
         <div>
-            One can only wait so long for drone delivery to become a thing, so <span class="bold">LunaDrop</span> was born out of the necessity to pick up where Amazon left off. 
+            One can only wait so long for drone delivery to become a thing, so <span class="luna">lunadrop</span> was born out of the necessity to pick up where Amazon left off. 
         </div>
     </div>
 
     <div class="row about-page">
         <h3>What?</h3>
         <div>
-            <span class="bold">LunaDrop</span> is a comprehensive drone delivery system. Users visit our web app to place an order and select one of our designated delivery locations. Back at the hub we pack up the order and clip the box to one of our drones. The drone then flies autonomously from the hub to the chosen landing site, descends to release the package, and returns to the hub for the next order.
+            <span class="luna">lunadrop</span> is a comprehensive drone delivery system. Users visit our web app to place an order and select one of our designated delivery locations. Back at the hub we pack up the order and clip the box to one of our drones. The drone then flies autonomously from the hub to the chosen landing site, descends to release the package, and returns to the hub for the next order.
         </div>
     </div>
 
     <div class="row about-page">
         <h3>How?</h3>
-        <div>The LunaDrop project can best be broken down into three main parts.</div>
+        <div>The <span class="luna">lunadrop</span> project can best be broken down into three main parts.</div>
     </div>
     <div class="row about-page">
         <div class="col-sm-4">
-            <h4>The Server</h4>
-            <img src="/static/img/server.jpg" class="img-responsive" />
-            <p>description</p>
+            <h4>The Website</h4>
+            <img src="/static/img/website.png" class="img-responsive" />
+            <p><span class="luna">lunadrop.com</span> and the server sitting behind it it are the portal to rapid drone delivery. The intuitive mobile-friendly interface and real-time map allow users to easily place an order and watch the drone's progress as it flies.</p>
         </div>
 
         <div class="col-sm-4">
             <h4>The Drones</h4>
-            <img src="/static/img/drone.jpg" class="img-responsive" />
-            <p>description</p>
+            <img src="/static/img/drone.png" class="img-responsive" />
+            <p><span class="luna">lunadrop</span> drones are custom quadrotor UASs. Each drone is outfitted with our custom package gripper designed and built at Brown University. An open source, ARM-based flight controller in union with an onboard Linux computer allow the drone to communicate with our server over WiFi or LTE and navigate autonomously.</p>
         </div>
 
         <div class="col-sm-4">
             <h4>The Manager</h4>
-            <img src="/static/img/manager.jpg" class="img-responsive" />
-            <p>description</p>
+            <img src="/static/img/manager.png" class="img-responsive" />
+            <p>The Manager is the brain of the system. It recieves users' orders from the server and intelligently assigns them to an available drones taking into account factors like distance, battery life and payload weight. After generating a flight plan for the selected aircraft, it monitors the drone's performance and status throughout the mission.</p>
         </div>
     </div>
 
     <div class="row about-page">
         <h3>Who?</h3>
-        <p><span class="bold">LunaDrop</span> is the brain-child of three current undergraduate students studying at Brown University.</p>
+        <p><span class="luna">lunadrop</span> is the brain-child of three current undergraduate students studying at Brown University.</p>
     </div>
     <div class="row about-page">
         <div class="col-sm-4">
             <h4>Benjamin Shanahan</h4>
             <img src="/static/img/ben.jpg" class="img-responsive" />
-            <p>Ben is a senior studying Neuroscience</p>
+            <p></p>
         </div>
         <div class="col-sm-4">
             <h4>Isaiah Brand</h4>
             <img src="/static/img/izzy.jpg" class="img-responsive" />
-            <p>More information about Izzy</p>
+            <p></p>
         </div>
         <div class="col-sm-4">
             <h4>Nathan Amin</h4>
             <img src="/static/img/nathan.jpg" class="img-responsive" />
-            <p>More information about Nathan</p>
+            <p></p>
         </div>
     </div>
 
