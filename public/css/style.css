@@ -1,6 +1,10 @@
 body {
     font-family: 'Nunito', sans-serif;
 }
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Comfortaa', cursive;
+}
+
 
 /*Active navigation links*/
 .active {
@@ -66,6 +70,8 @@ body {
 .luna {
     font-weight: bold;
     color: #39bafc;
+    font-family: 'Comfortaa', cursive;
+}
 
 .about-page {
     margin-bottom: 10px;

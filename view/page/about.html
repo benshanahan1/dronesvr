@@ -3,7 +3,7 @@
 {% set active_page = "about" %}
 
 {% block header %}
-<div class="page-title">About <span class="luna">{{info["name"]}}</span></div>
+<div class="page-title"><span style="font-size: 17.5pt;">About</span> <span class="luna">{{info["name"]}}</span></div>
 {% endblock %}
 
 {% block content %}
@@ -13,8 +13,9 @@
     <div class="row about-page">
         <h3>Why?</h3>
         <div>
-            You've heard the gig before. You place an order, box gets loaded onto autonomous drone, drone flies to you immediately and you have your package only 15 seconds after you confirmed payment. Amazon announced their drone delivery in 2012, and somehow 5 years later we're still waiting around for our rich neighbor's order of emergency toilet paper to fall out of the sky.
+            You've heard it before. You place an order, box gets loaded onto autonomous drone, drone flies to you immediately and you have your package only 15 seconds after payment. Amazon announced their drone delivery in 2012, but somehow 5 years later we're still waiting around for our rich neighbor's order of emergency toilet paper to fall out of the sky.
         </div>
+        <br>
         <div>
             One can only wait so long for drone delivery to become a thing, so <span class="luna">lunadrop</span> was born out of the necessity to pick up where Amazon left off. 
         </div>
@@ -23,7 +24,7 @@
     <div class="row about-page">
         <h3>What?</h3>
         <div>
-            <span class="luna">lunadrop</span> is a comprehensive drone delivery system. Users visit our web app to place an order and select one of our designated delivery locations. Back at the hub we pack up the order and clip the box to one of our drones. The drone then flies autonomously from the hub to the chosen landing site, descends to release the package, and returns to the hub for the next order.
+            <span class="luna">lunadrop</span> is a comprehensive drone delivery system. Users visit our web app to place an order and select one of our designated delivery locations. Back at the hub we pack up the order and strap the box to one of our drones. The drone then flies autonomously from the hub to the your requested landing site, descends to drop off the package, and returns to the hub for the next order.
         </div>
     </div>
 
@@ -41,7 +42,7 @@
         <div class="col-sm-4">
             <h4>The Drones</h4>
             <img src="/static/img/drone.png" class="img-responsive" />
-            <p><span class="luna">lunadrop</span> drones are custom quadrotor UASs. Each drone is outfitted with our custom package gripper designed and built at Brown University. An open source, ARM-based flight controller in union with an onboard Linux computer allow the drone to communicate with our server over WiFi or LTE and navigate autonomously.</p>
+            <p><span class="luna">lunadrop</span> autonomous delivery vehicles are custom unmanned aerial systems. Each drone is outfitted with our custom package gripper designed and built at Brown University. An open source, ARM-based flight controller in union with an onboard Linux computer allow the drone to communicate with our server over WiFi or LTE and navigate autonomously.</p>
         </div>
 
         <div class="col-sm-4">
