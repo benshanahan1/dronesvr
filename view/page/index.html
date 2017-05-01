@@ -21,11 +21,15 @@
 <!-- Landing page (over map) -->
 <div id="landing-page-overlay">
     <div class="col-md-offset-3 col-md-6" id="landing-page-content">
-        <img src="/static/img/lunadrop_logo_sm.png" class="img-fluid landing-page-logo" alt="LunaDrop">
-        <!-- <br> -->
-        {% if username %}
+        <div style="margin-top:-10px;">
+            <img src="/static/img/lunadrop_logo_sm.png" class="img-fluid landing-page-logo" alt="LunaDrop"><br>
+            <span class="luna luna-big">{{info["name"]}}</span><br>
+            <span class="luna-subtext">{{info["description"]}}</span><br><br>
+        </div>
 
-        <select id="flavor-select" class="no-bold landing-page-input form-control">
+        {% if userid %}
+
+        <!-- <select id="flavor-select" class="no-bold landing-page-input form-control">
             <option value="default">Choose a type of donut...</option>
             <option value="chocolate">Chocolate</option>
             <option value="glazed">Glazed</option>
@@ -34,15 +38,13 @@
             <option value="sprinkles">Sprinkles</option>
         </select>
         <br>
-        <button class="landing-page-input form-control" onclick="checkFlavorChoice()">Choose Drop Location</button>
+        <button class="landing-page-input form-control" onclick="checkFlavorChoice()">Choose Drop Location</button> -->
+
+        <div>There are currently no drones online. <a href="about">Learn more</a>.</div>
 
         {% else %}
 
-        <div style="margin-top:-10px">
-            <span class="luna luna-big">lunadrop</span><br>
-            <span class="luna-subtext">Autonomous Delivery System</span><br><br>
-            <p>There are currently no drones online. Click <a href="about">here</a> to learn more.</p>
-        </div>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         
         {% endif %}
     </div>

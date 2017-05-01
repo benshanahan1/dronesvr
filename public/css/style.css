@@ -67,20 +67,23 @@ h1, h2, h3, h4, h5, h6 {
 .bold {
     font-weight: bold;
 }
+.centered {
+    text-align: center;
+}
 .luna {
     font-weight: bold;
     color: #39bafc;
     font-family: 'Comfortaa', cursive;
 }
 .luna-big {
-    font-size: 35pt;
+    font-size: 30pt;
 }
 .luna-subtext {
     font-family: 'Comfortaa', cursive;
     font-size: 10pt;
 }
 
-.about-page {
+.row-spacing {
     margin-bottom: 10px;
     margin-right: 5px;
 }
@@ -91,4 +94,12 @@ h1, h2, h3, h4, h5, h6 {
 /*Links*/
 a {
     color: #990000 !important;
+}
+
+/*Google Sign-in button*/
+.g-signin2 {
+  width: 100%;
+}
+.g-signin2 div {
+  margin: 0 auto;
 }

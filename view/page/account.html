@@ -1,0 +1,54 @@
+{% extends "view/base.html" %}
+
+{% set active_page = "account" %}
+
+{% block header %}
+<div class="page-title">Welcome, {{name}}</div>
+{% endblock %}
+
+{% block content %}
+
+<div style="margin-top:-20pt;" class="container">
+
+    <div class="row row-spacing">
+        <h3>Manage Account</h3>
+        <ul>
+            <li><a href="/logout">Sign out</a></li>
+        </ul>
+    </div>
+
+    <div class="row row-spacing">
+        <h3>My Orders</h3>
+        <ul>
+            No active drones.
+        </ul>
+    </div>
+
+    {% if usertype >= 1 %}
+    <div class="row row-spacing">
+        <h3>Manage Drones</h3>
+        <ul>
+            No active drones.
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if usertype >= 2 %}
+    <div class="row row-spacing">
+        <h3>Manage Users</h3>
+        <ul>
+            Not yet implemented.
+        </ul>
+    </div>
+
+    <div class="row row-spacing">
+        <h3>Extras</h3>
+        <ul>
+            <li><a href="/demo">Robot Block Party Demo</a></li>
+        </ul>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -15,8 +15,8 @@ class App:
         "author_emails": "benjamin_shanahan@brown.edu, brand@brown.edu",
         "full_url": "http://lunadrop.com/",
         "short_url": "lunadrop.com",
-        "description": "lunadrop Autonomous Delivery",
-        "long_description": """lunadrop Autonomous Delivery System"""
+        "description": "Autonomous Drone Delivery",
+        "long_description": """lunadrop Autonomous Drone Delivery System"""
     }
 
 class Database:
@@ -26,6 +26,9 @@ class Database:
     ORDERS_TABLE = "orders"
     TASKS_TABLE = "tasks"
     USERS_TABLE = "user"
+
+class Authentication:
+    CLIENT_ID = "680157324579-1ugiegjdfjqula183h6933tntfsrs7ph.apps.googleusercontent.com"
 
 class UIDConst:
     LENGTH = 7  # total length, NOT including hardcoded values below
@@ -41,23 +44,20 @@ class Pages:
     TEMPLATE = {
         "index": "view/page/index.html",
         "about": "view/page/about.html",
-        "demo": "view/page/demo.html",
-        "auth": "view/page/auth.html",
-        "super": "view/page/super.html",
-        "admin": "view/page/admin.html"
+        "account": "view/page/account.html",
+        "demo": "view/page/demo.html"
     }
     # URL to page
     URL = {
         "index": "/",
         "about": "/about",
-        "demo": "/demo",
-        "auth": "/auth",
-        "super": "/super",
-        "admin": "/admin"
+        "account": "/account",
+        "demo": "/demo"
     }
 
 class Session:
-    AUTH_KEY = "_username"
+    USERID = "_userid"
+    NAME = "_name"
 
 class Errors:
     GENERIC = {

@@ -1,13 +1,10 @@
 {% macro generate_nav() %}
     {% set active_page = active_page|default("index") -%}
-    <a href="/" {% if active_page=="index" %}class="active"{% endif %}>Deliver</a> |
+    {% if active_page != "index" %}<a href="/">Order</a> | {% endif %}
     <a href="/about" {% if active_page=="about" %}class="active"{% endif %}>About</a>
-    <!--  | 
-    {% if username %}
-        <a href="/logout">Logout</a>
-    {% else %}
-        <a href="/auth" {% if active_page=="auth" %}class="active"{% endif %}>Login</a>
-    {% endif %} -->
+    {% if userid %}
+     | <a href="/account" {% if active_page=="account" %}class="active"{% endif %}>Account</a>
+    {% endif %}
 {% endmacro %}
 
 <!DOCTYPE html>
@@ -18,6 +15,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{info['name']}} {{info['version']}}: {{info['description']}}">
+    <meta name="google-signin-client_id" content="680157324579-1ugiegjdfjqula183h6933tntfsrs7ph.apps.googleusercontent.com">
     <link rel="icon" href="/static/img/favicon.png">
 
     <title>{{info["name"]}}</title>
@@ -27,7 +25,7 @@
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/bootstrap2-toggle.min.js"></script>
     <script src="/static/js/globals.js"></script>
-    
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
 
@@ -75,7 +73,7 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
   ga('create', 'UA-98377083-1', 'auto');
-  ga('set', 'userId', '{{username}}'); // Set the user ID using signed-in user_id.
+  ga('set', 'userId', '{{userid}}'); // Set the user ID using signed-in user_id.
   ga('send', 'pageview');
 </script>
 

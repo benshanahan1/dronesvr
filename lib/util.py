@@ -16,39 +16,43 @@ class DBFunc:
     #######################
 
     # Check if user exists in ADMIN table
-    def _user_exists(self, username):
-        r = self._query("SELECT username FROM user WHERE username=%s",(username,))
+    def _user_exists(self, userid):
+        r = self._query("SELECT userid FROM user WHERE userid=%s",(userid,))
         return len(r) is not 0
 
+    # Add new userid entry to database
+    def add_new_user(self, userid, name, email):
+        return self._query("INSERT INTO user (`userid`,`name`,`email`) VALUES (%s,%s,%s)",(userid,name,email));
+
     # Get user type (0 = user, 1 = supervisor, 2 = administrator)
-    # Return -1 if username does not exist
-    def get_user_type(self, username):
-        if self._user_exists(username):
-            return self.get_user_info("type",username)
+    # Return -1 if userid does not exist
+    def get_user_type(self, userid):
+        if self._user_exists(userid):
+            return self.get_user_info("type",userid)
         else:
             return -1
 
-    # Check if user exists, and if so, compare the md5 hash
-    # of the given password with given username. Additionally, the
-    # type in the user entry must be greater than or equal to the type
-    # that is passed to the function. Types are as follows:
-    # 0 = user, 1 = moderator, 2 = administrator
-    def authenticate_user(self, username, password, req_type=0):
-        if self._user_exists(username):
-            pwd_hash = self.get_user_info("password",username)
-            return self.check_permissions(username,req_type) and \
-                   pwd_hash == Encoding.md5(password)
-        return False
+    # # Check if user exists, and if so, compare the md5 hash
+    # # of the given password with given userid. Additionally, the
+    # # type in the user entry must be greater than or equal to the type
+    # # that is passed to the function. Types are as follows:
+    # # 0 = user, 1 = moderator, 2 = administrator
+    # def authenticate_user(self, userid, password, req_type=0):
+    #     if self._user_exists(userid):
+    #         pwd_hash = self.get_user_info("password",userid)
+    #         return self.check_permissions(userid,req_type) and \
+    #                pwd_hash == Encoding.md5(password)
+    #     return False
 
-    def check_permissions(self, username, req_type=0):
-        if self._user_exists(username):
-            user_type = self.get_user_type(username)
+    def check_permissions(self, userid, req_type=0):
+        if self._user_exists(userid):
+            user_type = self.get_user_type(userid)
             return user_type >= req_type
         return False
 
     # Retrieve user specific data from ADMIN table
-    def get_user_info(self, field, username):
-        return self._query("SELECT {} FROM {} WHERE username=%s".format(field,Database.USERS_TABLE),(username,))
+    def get_user_info(self, field, userid):
+        return self._query("SELECT `{}` FROM {} WHERE userid=%s".format(field,Database.USERS_TABLE),(userid,))
 
     ############################
     ### Drone API management ###
@@ -101,36 +105,36 @@ class DBFunc:
     ### Job queueing ###
     ####################
 
-    # Check if username is present in the orders table. Only one delivery request
+    # Check if userid is present in the orders table. Only one delivery request
     # per user can be queued at a time. Function returns true if there is 
-    # no order present in the orders queue belonging to a user with a matching username
-    def user_can_queue(self, username):
-        r1 = self._query("SELECT username FROM orders WHERE username=%s",(username,))
+    # no order present in the orders queue belonging to a user with a matching userid
+    def user_can_queue(self, userid):
+        r1 = self._query("SELECT userid FROM orders WHERE userid=%s",(userid,))
         in_order_queue = len(r1) is not 0
-        n_orders = self._query("SELECT ordercount FROM user WHERE username=%s",(username,))
+        n_orders = self._query("SELECT ordercount FROM user WHERE userid=%s",(userid,))
         return not in_order_queue and n_orders == 0
 
     # Queue a new drone delivery order. Inputted parameter order must be a dict containing
     # all required values for the drone delivery (into MySQL table QUEUE).
     def add_order(self, order):
-        self.increment_ordercount(order["username"])  # increment user's ordercount by 1
+        self.increment_ordercount(order["userid"])  # increment user's ordercount by 1
         keys = ",".join(order.keys())
         vals = "','".join(order.values())  # joins values with quotes (start & end don't have quotes)
         sql = "INSERT INTO orders ({}) VALUES ('{}')".format(keys,vals)
         return self._query(sql,return_data=False)
 
     # Increment ordercount field in user table
-    def increment_ordercount(self, username):
-        return self._query("UPDATE user SET ordercount=ordercount+1 WHERE username='{}'".format(username))
+    def increment_ordercount(self, userid):
+        return self._query("UPDATE user SET ordercount=ordercount+1 WHERE userid='{}'".format(userid))
+
+    # Set order UID in field within user table entry corresponding to current userid
+    # To remove orderid from userid entry, pass orderid as empty string
+    def update_user_order(self, userid, orderid=""):
+        return self._query("UPDATE `user` SET `order`=%s WHERE `userid`=%s",(orderid,userid))
 
     ###############################
     ### Database administration ###
     ###############################
-
-    # # Insert new row with UID into TABLE
-    # # Example usage: DBFunc.insert("0jFJdaam27","zones")
-    # def insert(self, uid, table):
-    #     return self._query("INSERT INTO {} (uid) VALUES ('{}'')".format(table,uid), return_data=False)
 
     # Delete row matching UID in TABLE
     def delete(self, uid, table):
@@ -162,7 +166,7 @@ class DBFunc:
 """ Prevent XSS or SQL injection attacks """
 class Secure:
 
-    # Regex for username
+    # Regex for userid
     @classmethod
     def credentials(self,string):
         pattern = "^[a-zA-Z]\w{2,14}$"  # must start with letter, btwn 3-15 characters

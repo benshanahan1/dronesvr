@@ -4,8 +4,8 @@ var selectedDestination = "";
 var selectedFlavor = "";
 
 // Default colors
-var unselectedColor = "#39bafc";
-var selectedColor = "#990000";
+var unselectedColor = "#666666";
+var selectedColor = "#39bafc";
 
 // Define feature markers (TODO: put this in a separate text file?!)
 var info = {
@@ -162,5 +162,5 @@ function showFlavorSelectionScreen() {
 
 // Display order button on screen
 function showPlaceOrderButton() {
-    $("#place-order-button").show("fast");
+    $("#place-order").show("fast");
 }

@@ -1,7 +1,8 @@
 from jinja2 import Environment, FileSystemLoader
+from oauth2client import client, crypt
 
 from . util import DBFunc, UID, Timestamp, Web, Secure
-from . globals import Session, Pages, App, Database
+from . globals import Session, Pages, App, Database, Authentication
 
 import random
 import string
@@ -36,97 +37,70 @@ class Controller(object):
         tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["about"])
         page_data = self._get_page_data()
         return tmpl.render(page_data)
-    # Authorization page (login prompt)
+    # Account page
     @cherrypy.expose
-    def auth(self,action=None):
-        tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["auth"])
-        username = cherrypy.session.get(Session.AUTH_KEY)
-        if username is not None:
-            if DB.check_permissions(username,0):
-                raise Web.redirect(Pages.URL["index"])
-            elif DB.check_permissions(username,1):
-                raise Web.redirect(Pages.URL["super"])
-            elif DB.check_permissions(username,2):
-                raise Web.redirect(Pages.URL["admin"])
-            else:  # unknown user_type; log user out
-                cherrypy.session[Session.AUTH_KEY] = None
-                raise Web.redirect(Pages.URL["auth"])
+    def account(self):
+        page_data = self._get_page_data()
+        userid = page_data["userid"]
+        if userid is not None:
+            tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["account"])
+            return tmpl.render(page_data)  # render page
         else:
-            page_data = self._get_page_data()
-            page_data["action"] = action
-            return tmpl.render(page_data)
-    # Supervisor landing page
-    @cherrypy.expose
-    def super(self):
-        tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["super"])
-        username = cherrypy.session.get(Session.AUTH_KEY)
-        if username is not None and DB.check_permissions(username,1):
-            page_data = self._get_page_data()
-            return tmpl.render(page_data)
-        else:
-            raise Web.redirect(Pages.URL["auth"])
-    # Admin landing page (allows database modification)
-    @cherrypy.expose
-    def admin(self):
-        tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["admin"])
-        username = cherrypy.session.get(Session.AUTH_KEY)
-        if username is not None and DB.check_permissions(username,2):
-            page_data = self._get_page_data()
-            return tmpl.render(page_data)
-        else:
-            raise Web.redirect(Pages.URL["auth"])
+            raise Web.redirect(Pages.URL["index"])  # reject user access
 
     """ Functional endpoints """
     # Login endpoint (checks POSTed credentials and then redirects)
     # This page should send the current user to a landing page based on credentials
     @cherrypy.expose
-    def login(self, username=None, password=None, **kwargs):
-        if username is not None and password is not None:
-            # escape username before changing database
-            if Secure.credentials(username):
-                # authenticate and redirect user given their credential type
-                user_type = DB.get_user_type(username)
-                if user_type >= 0 and user_type <= 2:
-                    status = DB.authenticate_user(username,password,req_type=user_type)
-                    if status:
-                        cherrypy.session[Session.AUTH_KEY] = username
-                        if user_type == 0:  # user
-                            raise Web.redirect(Pages.URL["index"])
-                        elif user_type == 1:  # supervisor
-                            raise Web.redirect(Pages.URL["super"])
-                        elif user_type == 2:  # administrator
-                            raise Web.redirect(Pages.URL["admin"])
-        cherrypy.session[Session.AUTH_KEY] = None
-        raise Web.redirect(Pages.URL["auth"])
-    # New user registration
-    @cherrypy.expose
-    def register(self,email=None,username=None,nickname=None,password=None,**kwargs):
-        # TODO: implement new user registration
-        print "New user registration request: %s (%s)" % (username, email)
-        return "Not yet implemented. <a href='/'>Back</a>."
-    # Logout endpoint (removes logged-in user session and redirects)
+    def login(self, token=None):
+        if token is None:
+            Web.redirect(Pages.URL["index"])  # reject user login
+        else:
+            try:
+                client_id = Authentication.CLIENT_ID
+                idinfo = client.verify_id_token(token,client_id)
+                if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+                    raise crypt.AppIdentityError("Wrong issuer.")  # reject user login
+            except crypt.AppIdentityError:
+                # Invalid token
+                raise Web.redirect(Pages.URL["index"])  # reject user login
+            if idinfo['aud'] == client_id:
+                # token is valid and intended for client
+                # get unique Google ID for user
+                userid = idinfo['sub']
+                cherrypy.session[Session.USERID] = userid  # unique google user id
+                cherrypy.session[Session.NAME] = idinfo['name']
+                # Check if the current user is already in our database, if not, add them
+                if not DB._user_exists(userid):
+                    DB.add_new_user(userid,idinfo['name'],idinfo['email'])
+                return idinfo['name']
+            else:
+                raise Web.redirect(Pages.URL["index"])  # reject user login
     @cherrypy.expose
     def logout(self):
-        cherrypy.session[Session.AUTH_KEY] = None
+        cherrypy.session[Session.USERID] = None
+        cherrypy.session[Session.NAME] = None
         raise Web.redirect(Pages.URL["index"])
     # Add new delivery job (this is an AJAX endpoint)
     @cherrypy.expose
     def addorder(self,flavor=None,destination=None):
-        username = cherrypy.session.get(Session.AUTH_KEY)
-        if DB.check_permissions(username,0) and \
+        userid = cherrypy.session.get(Session.USERID)
+        if DB.check_permissions(userid,0) and \
            flavor is not None and destination is not None:
             # TODO: determine that flavor and destination 
             # values are valid (match pre-existing values)
             # Determine that user has not already queued a job
-            if DB.user_can_queue(username):  # make sure user can queue a job!
+            if DB.user_can_queue(userid):  # make sure user can queue a job!
+                orderid = UID.generate("order")
                 new_order = {
-                    "uid": UID.generate("order"),  # generate random job UID
-                    "username": username,
+                    "uid": orderid,  # generate random job UID
+                    "userid": userid,
                     "flavor": flavor,
                     "destination": destination,
                     "timestamp": Timestamp.now()
                 }
-                success = DB.add_order(new_order)
+                r1 = DB.add_order(new_order)
+                r2 = DB.update_user_order(userid,orderid)
                 return json.dumps({"success":True,"message":"Congrats! Your donut order will soon be on its way."})
             else:
                 return json.dumps({"success":False,"message":"Sorry, you've already requested a donut!"})
@@ -138,8 +112,8 @@ class Controller(object):
     @cherrypy.expose
     def demo(self,command=None):
         demoDroneUID = "luna"
-        username = cherrypy.session.get(Session.AUTH_KEY)
-        if username is not None and DB.check_permissions(username,2):
+        userid = cherrypy.session.get(Session.USERID)
+        if userid is not None and DB.check_permissions(userid,2):
             if command is None or command == "":
                 tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["demo"])
                 page_data = self._get_page_data()
@@ -155,13 +129,20 @@ class Controller(object):
     """ Helper functions """
     # Return page_data dict to pass to Jinja template
     def _get_page_data(self):
-        username = cherrypy.session.get(Session.AUTH_KEY)
+        userid = cherrypy.session.get(Session.USERID)
         page_data = {
             "info": App.INFO
         }
-        if username is not None:  # this means username exists and is valid
-            page_data["username"] = username
-            page_data["nickname"] = DB.get_user_info("nickname",username)
-            page_data["email"] = DB.get_user_info("email",username)
-            page_data["phone"] = DB.get_user_info("phone",username)
+        if userid is not None:  # this means userid exists and is valid
+            page_data["userid"] = userid
+            page_data["usertype"] = DB.get_user_info("type",userid)
+            page_data["name"] = DB.get_user_info("name",userid)
+            page_data["email"] = DB.get_user_info("email",userid)
+            page_data["order"] = DB.get_user_info("order",userid)
+        else:
+            page_data["userid"] = ""
+            page_data["name"] = ""
+            page_data["email"] = ""
+            page_data["email"] = ""
+            page_data["order"] = ""
         return page_data

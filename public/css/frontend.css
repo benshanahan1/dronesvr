@@ -104,6 +104,7 @@
 }
 #place-order {
     position: absolute;
+    display: none;
     bottom: 70px;
     left: 50%;
     width: 150px;
@@ -114,7 +115,6 @@
     z-index: 100;
 }
 #place-order-button {
-    display: none;
     border-radius: 5px;
     padding-top: 10px;
     padding-bottom: 10px;
