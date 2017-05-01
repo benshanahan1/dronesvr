@@ -4,8 +4,8 @@ var selectedDestination = "";
 var selectedFlavor = "";
 
 // Default colors
-var unselectedColor = "#990000";
-var selectedColor = "#0066ff";
+var unselectedColor = "#39bafc";
+var selectedColor = "#990000";
 
 // Define feature markers (TODO: put this in a separate text file?!)
 var info = {
@@ -53,7 +53,7 @@ var geoJson = {
 
 // Define map
 L.mapbox.accessToken = 'pk.eyJ1IjoiaXp6eWJyYW5kIiwiYSI6ImNpeTdzdHh3ZDAwNncycXN4eTYyY2k3dTAifQ.WzrAcd4xaQ0dd7ur3u0fSQ';
-var map = L.mapbox.map("map","mapbox.dark",{zoomControl: false}).setView([41.826192,-71.402693],16);
+var map = L.mapbox.map("map","mapbox.light",{zoomControl: false}).setView([41.826192,-71.402693],16);
 
 // Define map layer
 var myLayer = L.mapbox.featureLayer().addTo(map);

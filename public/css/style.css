@@ -72,6 +72,13 @@ h1, h2, h3, h4, h5, h6 {
     color: #39bafc;
     font-family: 'Comfortaa', cursive;
 }
+.luna-big {
+    font-size: 35pt;
+}
+.luna-subtext {
+    font-family: 'Comfortaa', cursive;
+    font-size: 10pt;
+}
 
 .about-page {
     margin-bottom: 10px;
@@ -83,16 +90,5 @@ h1, h2, h3, h4, h5, h6 {
 
 /*Links*/
 a {
-    color: #39bafc !important;
-}*/
-/*a, a:visited {
-    color: #39bafc !important;
-}
-
-a:hover, a:active {
-    color: #39bafc !important;
-}
-
-a {
-    color: #39bafc !important;
+    color: #990000 !important;
 }
