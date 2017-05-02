@@ -48,20 +48,7 @@ def start():
     cherrypy.engine.start()
     cherrypy.engine.block()
 
-def print_pid(path):
-    pid = os.getpid()
-    try:
-        pidfile = open(path,"wb")
-        output = "dronemgrpid='" + str(pid) + "'"
-        pidfile.write(output)  # write PID to text file
-    finally:
-        try:
-            pidfile.close()
-        except:
-            pass
-
 
 
 if __name__ == "__main__":
-    print_pid(Configuration.SERVER_PID_PATH)  # save Python PID
     start()

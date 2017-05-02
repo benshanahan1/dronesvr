@@ -5,7 +5,6 @@ class Configuration:
     THREAD_POOL = 12
     ERROR_LOG_PATH = "log/error.log"
     ACCESS_LOG_PATH = "log/access.log"
-    SERVER_PID_PATH = "log/pid.log"
 
 class App:
     INFO = {
