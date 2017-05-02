@@ -1,4 +1,0 @@
-# Shutdown CherryPy Python server
-. log/pid.log  # load CherryPy server PID from log file
-sudo kill -9 $dronesvrpid
-echo "CherryPy Server shut down."
