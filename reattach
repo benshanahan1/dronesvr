@@ -1,1 +1,1 @@
-sudo screen -r lunadrop
+sudo screen -d -r lunadrop
