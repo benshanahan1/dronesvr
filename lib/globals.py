@@ -6,6 +6,11 @@ class Configuration:
     ERROR_LOG_PATH = "log/error.log"
     ACCESS_LOG_PATH = "log/access.log"
 
+# Generic Javascript HTML injection
+class Inject:
+    # Redirect user to site root (useful for 404 or 500 errors)
+    INDEX_REDIRECT = "<html><body><script>window.location.replace('/');</script></body></html>"
+
 class App:
     INFO = {
         "name": "lunadrop",

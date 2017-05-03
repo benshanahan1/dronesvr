@@ -1,6 +1,6 @@
 from lib.controllers import Controller
 from lib.api import API
-from lib.globals import Configuration, Database
+from lib.globals import Configuration, Database, Inject
 
 import ConfigParser
 import os
@@ -20,7 +20,9 @@ def get_app(conf):
         "server.socket_port":   Configuration.SOCKET_PORT,
         "server.thread_pool":   Configuration.THREAD_POOL,
         "log.error_file":       Configuration.ERROR_LOG_PATH,
-        "log.access_file":      Configuration.ACCESS_LOG_PATH
+        "log.access_file":      Configuration.ACCESS_LOG_PATH,
+        "error_page.404":       error_404,
+        "error_page.500":       error_500
     }
     cherrypy.config.update(global_config)
     return cherrypy.tree
@@ -39,6 +41,23 @@ def secure_headers():
     headers["x-frame-options"] = "deny"
     headers["x-xss-protection"] = "1; mode=block"
     headers["x-content-type-options"] = "nosniff"
+
+def error_404(status,message,traceback,version):
+    return Inject.INDEX_REDIRECT
+    
+def error_500(status,message,traceback,version):
+    error_data = {
+        "code": code,
+        "status": status,
+        "message": message,
+        "traceback": traceback,
+        "version": version
+    }
+    print "###### AN ERROR OCCURRED ######"
+    print status
+    print message
+    print "###############################"
+    return Inject.INDEX_REDIRECT
 
 def start():
     get_app(Configuration.CONFIG_PATH)
