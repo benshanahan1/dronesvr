@@ -12,6 +12,11 @@ function UpperFirst(string) {
 }
 
 // Google API OAuth
+function onLoad() {
+    gapi.load('auth2', function() {
+       gapi.auth2.init();
+    });
+}
 function onSignIn(googleUser) {
     // get user's ID token
     var id_token = googleUser.getAuthResponse().id_token;
@@ -30,4 +35,5 @@ function signOut() {
     auth2.signOut().then(function () {
         console.log('User signed out.');
     });
+    window.location.replace("logout");  // redirect user to web app
 }
