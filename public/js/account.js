@@ -42,6 +42,12 @@ function onButtonClick(uid,cmd) {
         }
     }
 }
+// function onDivClick(uid) {
+//     // TODO: fix this; it doesn't work due to event bubbling
+//     // use this to disable RTL button if user clicks out of focus
+//     rtlPressed = false;
+//     unsetDangerMode("#"+uid+"-button-rtl");
+// }
 
 
 
@@ -79,6 +85,13 @@ function setButtonsFromCommandStatus(uid,cmd,sts) {
     // Interpret command and status
     // TODO: modify these to match commands / statuses from 
     //       dronemgr and droneberry
+    if (cmd == "idle") {
+        rtlPressed = false;
+        unsetDangerMode(rtl);
+        disable(arm);
+        disable(takeoff);
+        disable(rtl);
+    }
     if (cmd == "rtl") {
         rtlPressed = false;  // reset it for later
         setDangerMode(rtl);
