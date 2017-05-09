@@ -19,8 +19,7 @@
 .value {
     font-style: italic;
 }
-.outline {
-    padding: 3px;
+.button-container {
     border-radius: 5px;
     height: 50px;
 }

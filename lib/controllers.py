@@ -105,23 +105,27 @@ class Controller(object):
                 return json.dumps({"success":False,"message":"Sorry, you've already requested a donut!"})
         raise Web.redirect(Pages.URL["index"])
     # Internet Connectivity Demo
+    @cherrypy.expose
+    def demo(self):
+        userid = cherrypy.session.get(Session.USERID)
+        if userid is not None and DB.check_permissions(userid,2):
+            tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["demo"])
+            page_data = self._get_page_data()
+            return tmpl.render(page_data)
+        else:
+            raise Web.redirect(Pages.URL["index"])
     # Note: we don't use the API is so that the auth-key
     # for the drone remains concealed (if we do stuff server-side and 
     # directly interface with the database, we don't need it)
     @cherrypy.expose
-    def demo(self,command=None):
-        demoDroneUID = "luna"
+    def set_command(self,drone_uid=None,command=None):
         userid = cherrypy.session.get(Session.USERID)
         if userid is not None and DB.check_permissions(userid,2):
-            if command is None or command == "":
-                tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["demo"])
-                page_data = self._get_page_data()
-                return tmpl.render(page_data)
-            else:
+            if drone_uid is not None and DB.uid_exists(drone_uid,DRONES) and command is not None:
                 # TODO: verify that command is valid
-                DB.set("command",command,"drones",demoDroneUID)
-                demoDroneName = DB.get("name","drones",demoDroneUID)
-                return "%s set to %s" % (demoDroneName,command)
+                DB.set("command",command,"drones",drone_uid)
+                drone_name = DB.get("name","drones",drone_uid)
+                return "%s set to %s" % (drone_name,command)
         else:
             raise Web.redirect(Pages.URL["index"])
 

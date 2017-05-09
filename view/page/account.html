@@ -8,18 +8,17 @@
 
 {% block content %}
 
-<script>
-    $( function() {
-        $( "#accordion" ).accordion({
-            heightStyle: "content"
-        });
-    } );
-</script>
-
 <div style="margin-top:-20pt;" class="container">
 
     {% if usertype >= 1 %}
     <!-- Administrative interface -->
+    <script>
+        $( function() {
+            $( "#accordion" ).accordion({
+                heightStyle: "content"
+            });
+        } );
+    </script>
     <div class="row row-spacing">
         <h3>Manage Drones</h3>
         <div id="accordion">
@@ -31,28 +30,40 @@
                 <span class="header">
                     <span class="header-entry">Cmd: </span>
                     <span class="header-value" id="{{uid}}-command">unset</span>
-                    <span class="header-entry">| Stat: </span>
+                    <span class="header-entry">| Sts: </span>
                     <span class="header-value" id="{{uid}}-status">unset</span>
                 </span>
             </h3>
             <div>
                 <div class="row row-spacing">
-                    <div class="col-sm-3 entry">Delivery contains:</div>
-                    <div class="col-sm-9 value" id="{{uid}}-contains">unset</div>
+                    <div class="col-xs-4 entry">Delivery contains:</div>
+                    <div class="col-xs-8 value" id="{{uid}}-contains">unset</div>
                 </div>
                 <div class="row row-spacing">
-                    <div class="col-sm-3 entry">Current mission:</div>
-                    <div class="col-sm-9 value" id="{{uid}}-activemission">unset</div>
+                    <div class="col-xs-4 entry">Active mission:</div>
+                    <div class="col-xs-8 value" id="{{uid}}-activemission">unset</div>
                 </div>
                 <div class="row row-spacing">
-                    <div class="col-sm-3 entry">Errors:</div>
-                    <div class="col-sm-9 value" id="{{uid}}-error">unset</div>
+                    <div class="col-xs-4 entry">Errors:</div>
+                    <div class="col-xs-8 value" id="{{uid}}-error">unset</div>
                 </div>
-                <div class="row row-spacing outline">
-                    <div class="col-sm-4 centered" id="{{uid}}-button-arm"><button disabled="true">ARM</button></div>
-                    <div class="col-sm-4 centered" id="{{uid}}-button-takeoff"><button disabled="true">TAKEOFF</button></div>
-                    <div class="col-sm-4 centered" id="{{uid}}-button-rtl"><button disabled="true">RTL</button></div>
+                <div class="row row-spacing button-container">
+                    <div class="col-xs-4 centered">
+                        <button id="{{uid}}-button-arm" onclick="onButtonClick('{{uid}}','arm')">Arm</button>
+                        <!-- <input id="{{uid}}-button-arm" data-toggle="toggle" data-on="Armed" data-off="Disarmed" data-height="45px" data-width="100%" type="checkbox"> -->
+                    </div>
+                    <div class="col-xs-4 centered">
+                        <button id="{{uid}}-button-takeoff" onclick="onButtonClick('{{uid}}','takeoff')">Takeoff</button>
+                    </div>
+                    <div class="col-xs-4 centered">
+                        <button id="{{uid}}-button-rtl" onclick="onButtonClick('{{uid}}','rtl')">RTL</button>
+                    </div>
                 </div>
+                <!-- <div class="row row-spacing button-container">
+                    <div class="col-xs-4 centered" id="{{uid}}-button-approvelanding">
+                        <input id="{{uid}}-switch-approvelanding" data-toggle="toggle" data-on="Approve Landing" data-off="Disallow Landing" data-height="45px" data-width="100%" type="checkbox">
+                    </div>
+                </div> -->
             </div>
             {% endfor %}
 

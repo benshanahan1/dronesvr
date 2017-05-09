@@ -128,7 +128,7 @@ function refresh() {
         });
 }
 function post(cmd) {
-    $.post("/demo",{command: cmd})
+    $.post("/set_command",{drone_uid: "luna", command: cmd})
         .done(function(result) {
             console.log("JSON response: " + result);
             refresh();  // update display
