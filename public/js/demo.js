@@ -109,7 +109,7 @@ function switchOff(id) {
 
 // Pull from database and refresh switches and command
 function refresh() {
-    $.get("/api?uid=" + droneUID + "&subset=state")
+    $.get("/api?drone_uid=" + droneUID + "&subset=state")
         .done(function(result) {
             // Available: result.command, result.voltage, result.status, result.error
             $("#current-command").text(result.command);

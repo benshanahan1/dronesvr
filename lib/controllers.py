@@ -14,7 +14,6 @@ DB = DBFunc()
 
 # Names of database tables
 DRONES = Database.DRONES_TABLE
-ZONES = Database.ZONES_TABLE
 TYPES = Database.TYPES_TABLE
 
 """
@@ -139,6 +138,7 @@ class Controller(object):
             page_data["name"] = DB.get_user_info("name",userid)
             page_data["email"] = DB.get_user_info("email",userid)
             page_data["order"] = DB.get_user_info("order",userid)
+            page_data["drone_uids"] = DB.get_all("uid",DRONES)
         else:
             page_data["userid"] = ""
             page_data["name"] = ""

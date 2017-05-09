@@ -8,6 +8,9 @@ var trimLen = 8;  // length to trim displayed string
 var fields = ["name","latitude","longitude","altitude","voltage",
               "speed","rssi","destination","timestamp"];
 
+// set next update
+setTimeout(update, updateInterval); 
+
 // Update display table
 function update() {
 
@@ -44,7 +47,4 @@ function update() {
             }
         });
     }
-
-    // set next update
-    setTimeout(update, updateInterval);
 }

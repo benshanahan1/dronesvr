@@ -8,30 +8,61 @@
 
 {% block content %}
 
+<script>
+    $( function() {
+        $( "#accordion" ).accordion({
+            heightStyle: "content"
+        });
+    } );
+</script>
+
 <div style="margin-top:-20pt;" class="container">
 
-    <div class="row row-spacing">
-        <h3>Manage Account</h3>
-        <ul>
-            <li><a href="#" onclick="signOut()">Sign out</a></li>
-        </ul>
-    </div>
-
-    <div class="row row-spacing">
-        <h3>My Orders</h3>
-        <ul>
-            No active drones.
-        </ul>
-    </div>
-
     {% if usertype >= 1 %}
+    <!-- Administrative interface -->
     <div class="row row-spacing">
         <h3>Manage Drones</h3>
-        <ul>
-            No active drones.
-        </ul>
+        <div id="accordion">
+
+            {% for uid in drone_uids %}
+            {% set uid = uid[0] %}
+            <h3 class="accordion-header">
+                <span id="{{uid}}-name" class="name">{{uid}}</span>
+                <span class="header">
+                    <span class="header-entry">Cmd: </span>
+                    <span class="header-value" id="{{uid}}-command">unset</span>
+                    <span class="header-entry">| Stat: </span>
+                    <span class="header-value" id="{{uid}}-status">unset</span>
+                </span>
+            </h3>
+            <div>
+                <div class="row row-spacing">
+                    <div class="col-sm-3 entry">Delivery contains:</div>
+                    <div class="col-sm-9 value" id="{{uid}}-contains">unset</div>
+                </div>
+                <div class="row row-spacing">
+                    <div class="col-sm-3 entry">Current mission:</div>
+                    <div class="col-sm-9 value" id="{{uid}}-activemission">unset</div>
+                </div>
+                <div class="row row-spacing">
+                    <div class="col-sm-3 entry">Errors:</div>
+                    <div class="col-sm-9 value" id="{{uid}}-error">unset</div>
+                </div>
+                <div class="row row-spacing outline">
+                    <div class="col-sm-4 centered" id="{{uid}}-button-arm"><button disabled="true">ARM</button></div>
+                    <div class="col-sm-4 centered" id="{{uid}}-button-takeoff"><button disabled="true">TAKEOFF</button></div>
+                    <div class="col-sm-4 centered" id="{{uid}}-button-rtl"><button disabled="true">RTL</button></div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
     </div>
+
+    <script src="/static/js/account.js"></script>
     {% endif %}
+
+
 
     {% if usertype >= 2 %}
     <div class="row row-spacing">
@@ -48,6 +79,21 @@
         </ul>
     </div>
     {% endif %}
+
+
+    <div class="row row-spacing">
+        <h3>My Orders</h3>
+        <ul>
+            No active drones.
+        </ul>
+    </div>
+
+    <div class="row row-spacing">
+        <h3>Manage Account</h3>
+        <ul>
+            <li><a href="#" onclick="signOut()">Sign out</a></li>
+        </ul>
+    </div>
 
 </div>
 

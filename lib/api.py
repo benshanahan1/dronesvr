@@ -64,11 +64,16 @@ class API(object):
                 return {"command": DB.get("command",DRONES,drone_uid)}
 
             def _get_state(drone_uid):
+                task_uid = DB.get("task",DRONES,drone_uid)
+                order_uid = DB.get("orders",TASKS,task_uid)  # TODO: implement for multiple orders!
+                print task_uid, order_uid
                 return {
                     "command": DB.get("command",DRONES,drone_uid),
                     "status": DB.get("status",DRONES,drone_uid),
                     "error": DB.get("error",DRONES,drone_uid),
-                    "voltage": DB.get("voltage",DRONES,drone_uid)
+                    "voltage": DB.get("voltage",DRONES,drone_uid),
+                    "activemission": DB.get("activemission",DRONES,drone_uid),
+                    "contains": DB.get("flavor",ORDERS,order_uid)
                 }
 
             def _get_general(drone_uid):
@@ -100,9 +105,6 @@ class API(object):
             elif subset == "general":
                 # Return general drone information
                 return json.dumps(_get_general(drone_uid))
-            elif subset == "all":
-                # Return all information
-                return json.dumps(_get_all(drone_uid))
             else:
                 return "{}"
 
