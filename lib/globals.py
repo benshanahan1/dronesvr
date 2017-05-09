@@ -25,7 +25,6 @@ class App:
 
 class Database:
     DRONES_TABLE = "drones"
-    ZONES_TABLE = "zones"
     TYPES_TABLE = "types"
     ORDERS_TABLE = "orders"
     TASKS_TABLE = "tasks"
@@ -37,11 +36,9 @@ class Authentication:
 class UIDConst:
     LENGTH = 7  # total length, NOT including hardcoded values below
     DRONE_ID = "D"  # at beginning of each drone UID
-    ZONE_ID = "Z"  # at beginning of each zone UID
     TYPE_ID = "T"  # at beginning of each type UID
     ORDER_ID = "O"  # at beginning of each order UID  
     TASK_ID = "K"  # at beginning of each task UID
-    USER_ID = "U"  # at beginning of each user UID
 
 class Pages:
     # Path to template file

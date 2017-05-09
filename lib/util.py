@@ -184,12 +184,13 @@ class UID:
         randStr = "".join(random.sample(string.hexdigits, int(UIDConst.LENGTH)))
         if uid_type == "drone":
             c = UIDConst.DRONE_ID
-        elif uid_type == "zone":
-            c = UIDConst.ZONE_ID
+        elif uid_type == "task":
+            c = UIDConst.TASK_ID
         elif uid_type == "type":
             c = UIDConst.TYPE_ID
         elif uid_type == "order":
             c = UIDConst.ORDER_ID
+        # TODO: should check that the UID does not already exist in the database
         return c + randStr
 
 
