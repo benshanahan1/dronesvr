@@ -1,4 +1,5 @@
 from . globals import UIDConst, Errors, Database
+from dateutil import parser
 
 import string
 import random
@@ -195,10 +196,15 @@ class UID:
 """ Get current timestamp """
 class Timestamp:
 
-    # Get current timestamp
+    # Get current timestamp (string)
     @classmethod
     def now(self):
         return str(datetime.datetime.now())
+
+    # Get datetime object from timestamp string
+    @classmethod
+    def str2datetime(self,timestamp):
+        return parser.parse(timestamp)
 
 
 """ Generate various encodings of string """
