@@ -20,12 +20,12 @@ $(document).ready(function() {
 // Button click handlers
 function onButtonClick(uid,cmd) {
     // Define button IDs
-    var arm = "#"+uid+"-button-arm";
+    var start = "#"+uid+"-button-start";
     var takeoff = "#"+uid+"-button-takeoff";
     var rtl = "#"+uid+"-button-rtl";
     // Interpret command
-    if (cmd == "arm") {
-        disable(arm);
+    if (cmd == "start") {
+        disable(start);
         post(uid,cmd);
     } else if (cmd == "takeoff") {
         disable(takeoff);
@@ -79,43 +79,43 @@ function unsetDangerMode(id) {
 }
 function setButtonsFromCommandStatus(uid,cmd,sts) {
     // Define button IDs
-    var arm = "#"+uid+"-button-arm";
+    var start = "#"+uid+"-button-start";
     var takeoff = "#"+uid+"-button-takeoff";
     var rtl = "#"+uid+"-button-rtl";
     // Interpret command and status
     // TODO: modify these to match commands / statuses from 
     //       dronemgr and droneberry
-    if (cmd == "idle") {
+    if (sts == "idle") {
         rtlPressed = false;
         unsetDangerMode(rtl);
-        disable(arm);
+        disable(start);
         disable(takeoff);
         disable(rtl);
     }
-    if (cmd == "rtl") {
+    if (sts == "rtl") {
         rtlPressed = false;  // reset it for later
         setDangerMode(rtl);
-        disable(arm);
+        disable(start);
         disable(takeoff);
         disable(rtl);
     }
-    if (cmd == "wait_arm") {
+    if (sts == "wait_start") {
         unsetDangerMode(rtl);
-        enable(arm);
+        enable(start);
         disable(takeoff);
         disable(rtl);
     }
-    if (cmd == "wait_takeoff") {
+    if (sts == "wait_arm") {
         unsetDangerMode(rtl);
-        disable(arm);
+        disable(start);
         enable(takeoff);
         disable(rtl);
     }
-    if (cmd == "flying") {
+    if (sts == "flying" || sts == "pause" || sts == "wait_arm") {
         if (!rtlPressed) {
             unsetDangerMode(rtl);
         }
-        disable(arm);
+        disable(start);
         disable(takeoff);
         enable(rtl);
     }
