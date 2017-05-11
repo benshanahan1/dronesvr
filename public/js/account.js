@@ -26,13 +26,13 @@ function onButtonClick(uid,cmd) {
     var rtl = "#"+uid+"-button-rtl";
     // Interpret command
     if (cmd == "advancemission") {
-        disable(advancemission);
+        // disable(advancemission);  // TODO: reenable
         post(uid,cmd);
     } else if (cmd == "start") {
-        disable(start);
+        // disable(start);  // TODO: reenable
         post(uid,cmd);
     } else if (cmd == "takeoff") {
-        disable(takeoff);
+        // disable(takeoff);  // TODO: reenable
         post(uid,cmd);
     } else if (cmd == "rtl") {
         if (!rtlPressed) {
@@ -40,9 +40,10 @@ function onButtonClick(uid,cmd) {
             setDangerMode(rtl);
             set(rtl,"Are you sure?");
         } else {
-            disable(rtl);
+            // disable(rtl);  // TODO: reenable
             set(rtl,"RTL");
             post(uid,cmd);
+            unsetDangerMode(rtl);  // TODO: remove
         }
     }
 }
