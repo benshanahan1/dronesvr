@@ -20,11 +20,15 @@ $(document).ready(function() {
 // Button click handlers
 function onButtonClick(uid,cmd) {
     // Define button IDs
+    var advancemission = "#"+uid+"-button-advancemission";
     var start = "#"+uid+"-button-start";
     var takeoff = "#"+uid+"-button-takeoff";
     var rtl = "#"+uid+"-button-rtl";
     // Interpret command
-    if (cmd == "start") {
+    if (cmd == "advancemission") {
+        disable(advancemission);
+        post(uid,cmd);
+    } else if (cmd == "start") {
         disable(start);
         post(uid,cmd);
     } else if (cmd == "takeoff") {
@@ -79,6 +83,7 @@ function unsetDangerMode(id) {
 }
 function setButtonsFromCommandStatus(uid,cmd,sts) {
     // Define button IDs
+    var advancemission = "#"+uid+"-button-advancemission"
     var start = "#"+uid+"-button-start";
     var takeoff = "#"+uid+"-button-takeoff";
     var rtl = "#"+uid+"-button-rtl";
@@ -88,6 +93,7 @@ function setButtonsFromCommandStatus(uid,cmd,sts) {
     if (sts == "idle") {
         rtlPressed = false;
         unsetDangerMode(rtl);
+        enable(advancemission);
         disable(start);
         disable(takeoff);
         disable(rtl);
@@ -95,18 +101,21 @@ function setButtonsFromCommandStatus(uid,cmd,sts) {
     if (sts == "rtl") {
         rtlPressed = false;  // reset it for later
         setDangerMode(rtl);
+        disable(advancemission);
         disable(start);
         disable(takeoff);
         disable(rtl);
     }
     if (sts == "wait_start") {
         unsetDangerMode(rtl);
+        disable(advancemission);
         enable(start);
         disable(takeoff);
         disable(rtl);
     }
     if (sts == "wait_arm") {
         unsetDangerMode(rtl);
+        disable(advancemission);
         disable(start);
         enable(takeoff);
         enable(rtl);
@@ -115,6 +124,7 @@ function setButtonsFromCommandStatus(uid,cmd,sts) {
         if (!rtlPressed) {
             unsetDangerMode(rtl);
         }
+        disable(advancemission);
         disable(start);
         disable(takeoff);
         enable(rtl);
