@@ -109,9 +109,9 @@ function setButtonsFromCommandStatus(uid,cmd,sts) {
         unsetDangerMode(rtl);
         disable(start);
         enable(takeoff);
-        disable(rtl);
+        enable(rtl);
     }
-    if (sts == "flying" || sts == "pause" || sts == "wait_arm") {
+    if (sts == "flying" || sts == "pause") {
         if (!rtlPressed) {
             unsetDangerMode(rtl);
         }
