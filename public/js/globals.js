@@ -1,6 +1,6 @@
 // Global variable and function definitions
 
-var api = "http://localhost/api";
+// var api = "http://localhost/api";
 
 function ToggleDiv(id) {
     $("#"+id).toggle('fast');
@@ -14,7 +14,7 @@ function UpperFirst(string) {
 // Google API OAuth
 function onLoad() {
     gapi.load('auth2', function() {
-       gapi.auth2.init();
+        var auth2 = gapi.auth2.init();
     });
 }
 function onSignIn(googleUser) {
@@ -25,8 +25,8 @@ function onSignIn(googleUser) {
     xhr.open('POST','login');
     xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     xhr.onload = function() {
-      console.log('Signed in as: ' + xhr.responseText);
-      window.location.replace("/");  // redirect user to web app
+        console.log('Signed in as: ' + xhr.responseText);
+        window.location.replace("/");  // redirect user to web app
     };
     xhr.send('token=' + id_token);
 }

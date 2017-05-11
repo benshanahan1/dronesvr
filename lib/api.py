@@ -66,7 +66,6 @@ class API(object):
             def _get_state(drone_uid):
                 task_uid = DB.get("task",DRONES,drone_uid)
                 order_uid = DB.get("orders",TASKS,task_uid)  # TODO: implement for multiple orders!
-                print task_uid, order_uid
                 return {
                     "command": DB.get("command",DRONES,drone_uid),
                     "status": DB.get("status",DRONES,drone_uid),

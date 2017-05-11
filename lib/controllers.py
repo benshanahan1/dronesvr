@@ -8,6 +8,7 @@ import random
 import string
 import cherrypy
 import json
+import re
 
 # Instantiate database query object
 DB = DBFunc()  
@@ -63,6 +64,14 @@ class Controller(object):
             except crypt.AppIdentityError:
                 # Invalid token
                 raise Web.redirect(Pages.URL["index"])  # reject user login
+            # Verify that domain belongs to @brown.edu
+            domain = re.search("@[\w.]+",idinfo["email"])
+            if domain.group() != Authentication.ALLOWED_USER_DOMAIN:
+                # Reject user & wipe session data (just in case)
+                cherrypy.session[Session.USERID] = ""
+                cherrypy.session[Session.NAME] = ""
+                raise Web.redirect(Pages.URL["index"])
+            # check client_id and allow authentication if it matches
             if idinfo['aud'] == client_id:
                 # token is valid and intended for client
                 # get unique Google ID for user

@@ -44,7 +44,8 @@
 
         {% else %}
 
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <!-- <div id="signin-btn">Sign In</div> -->
+        <div class="g-signin2 signin-btn" data-onsuccess="onSignIn"></div>
         
         {% endif %}
     </div>
@@ -57,5 +58,12 @@
 
 <!-- Map -->
 <div id="map"></div>
-<script src='/static/js/frontend.js'></script>  <!-- must come after map div -->
+<script src='/static/js/map.js'></script>  <!-- must come after map div -->
+
+{# Don't include the frontend JS until we're ready to deploy. -#}
+{# And, once we include it, only do so if the user is logged in -#}
+{% if userid %}
+    {# <script src='/static/js/frontend.js'></script>  <!-- realtime frontend magic --> -#}
+{% endif %}
+
 {% endblock %}

@@ -20,7 +20,7 @@
         } );
     </script>
     <div class="row row-spacing">
-        <h3>Manage Drones</h3>
+        <h3>Manage Drones <span class="badge" id="n-drones">1</span></h3>
         <div id="accordion">
 
             {% for uid in drone_uids %}
@@ -77,7 +77,7 @@
 
     {% if usertype >= 2 %}
     <div class="row row-spacing">
-        <h3>Manage Users</h3>
+        <h3>Manage Users <span class="badge" id="n-active-users"></span></h3>
         <ul>
             Not yet implemented.
         </ul>
@@ -93,7 +93,7 @@
 
 
     <div class="row row-spacing">
-        <h3>My Orders</h3>
+        <h3>My Orders <span class="badge" id="my-active-orders"></span></h3>
         <ul>
             No active drones.
         </ul>

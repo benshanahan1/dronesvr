@@ -24,10 +24,13 @@
 }
 .landing-page-input {}
 .landing-page-logo {
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 25px;
+    margin-bottom: 5px;
     /*width: 150px;*/
     height: 175px;
+}
+.signin-btn {
+    margin-top: -5px;
 }
 
 /*MapBox Front-end display*/

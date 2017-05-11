@@ -32,6 +32,7 @@ class Database:
 
 class Authentication:
     CLIENT_ID = "680157324579-1ugiegjdfjqula183h6933tntfsrs7ph.apps.googleusercontent.com"
+    ALLOWED_USER_DOMAIN = "@brown.edu"  # only allow @brown.edu Google users
 
 class UIDConst:
     LENGTH = 7  # total length, NOT including hardcoded values below
