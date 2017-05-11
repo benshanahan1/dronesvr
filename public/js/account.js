@@ -88,13 +88,11 @@ function setButtonsFromCommandStatus(uid,cmd,sts) {
     var takeoff = "#"+uid+"-button-takeoff";
     var rtl = "#"+uid+"-button-rtl";
     // Interpret command and status
-    // TODO: modify these to match commands / statuses from 
-    //       dronemgr and droneberry
     if (sts == "idle") {
         rtlPressed = false;
         unsetDangerMode(rtl);
         enable(advancemission);
-        disable(start);
+        enable(start);
         disable(takeoff);
         disable(rtl);
     }
@@ -103,13 +101,6 @@ function setButtonsFromCommandStatus(uid,cmd,sts) {
         setDangerMode(rtl);
         disable(advancemission);
         disable(start);
-        disable(takeoff);
-        disable(rtl);
-    }
-    if (sts == "wait_start") {
-        unsetDangerMode(rtl);
-        disable(advancemission);
-        enable(start);
         disable(takeoff);
         disable(rtl);
     }
@@ -144,7 +135,8 @@ function refresh() {
                 $("#"+uid+"-contains").text(result.contains);
                 $("#"+uid+"-activemission").text(result.activemission);
                 $("#"+uid+"-error").text(result.error);
-                setButtonsFromCommandStatus(uid,result.command,result.status);
+                // TODO: enable
+                // setButtonsFromCommandStatus(uid,result.command,result.status);
             });
     }
 }
