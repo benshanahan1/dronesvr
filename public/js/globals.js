@@ -48,10 +48,12 @@ function set(id,text,html=false) {
 // Enable / disable element matching ID
 function enable(id) {
     $(id).attr("disabled",false);
+    $(id).removeClass("disabled");
     // console.log("Enable: "+id);
 }
 function disable(id) {
     $(id).attr("disabled",true);
+    $(id).addClass("disabled");
     // console.log("Disable: "+id);
 }
 function setDangerMode(id) {
@@ -61,4 +63,20 @@ function setDangerMode(id) {
 function unsetDangerMode(id) {
     $(id).removeClass("danger danger-background");
     // console.log("Unset Danger Mode: "+id);
+}
+
+// Set drone command
+function set_command(uid,cmd,callback) {
+    $.post("/set_command",{drone_uid: uid, command: cmd})
+        .done(callback);
+}
+// Click handler
+// id: button ID, uid: database UID, cmd: command for drone, 
+// callback: refresh function name, disableOnClick: disable button after click
+
+function setCommandOnClick(id,uid,cmd,callback,disableOnClick=true) {
+    set_command(uid,cmd,callback);
+    if (disableOnClick) {
+        disable(id);
+    }
 }

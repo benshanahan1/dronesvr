@@ -47,6 +47,7 @@ class Controller(object):
             tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["account"])
             return tmpl.render(page_data)  # render page
         else:
+            cherrypy.response.status = 401  # Unauthorized
             raise Web.redirect(Pages.URL["index"])  # reject user access
 
     """ Functional endpoints """
@@ -64,6 +65,7 @@ class Controller(object):
                     raise crypt.AppIdentityError("Wrong issuer.")  # reject user login
             except crypt.AppIdentityError:
                 # Invalid token
+                cherrypy.response.status = 401  # Unauthorized
                 raise Web.redirect(Pages.URL["index"])  # reject user login
             # Verify that domain belongs to @brown.edu
             domain = re.search("@[\w.]+",idinfo["email"])
@@ -71,6 +73,7 @@ class Controller(object):
                 # Reject user & wipe session data (just in case)
                 cherrypy.session[Session.USERID] = ""
                 cherrypy.session[Session.NAME] = ""
+                cherrypy.response.status = 401  # Unauthorized
                 raise Web.redirect(Pages.URL["index"])
             # check client_id and allow authentication if it matches
             if idinfo['aud'] == client_id:
@@ -84,6 +87,7 @@ class Controller(object):
                     DB.add_new_user(userid,idinfo['name'],idinfo['email'])
                 return idinfo['name']
             else:
+                cherrypy.response.status = 401  # Unauthorized
                 raise Web.redirect(Pages.URL["index"])  # reject user login
     @cherrypy.expose
     def logout(self):
@@ -113,7 +117,9 @@ class Controller(object):
                 return json.dumps({"success":True,"message":"Congrats! Your donut order will soon be on its way."})
             else:
                 return json.dumps({"success":False,"message":"Sorry, you've already requested a donut!"})
-        raise Web.redirect(Pages.URL["index"])
+        else:
+            cherrypy.response.status = 401  # Unauthorized
+            raise Web.redirect(Pages.URL["index"])
     # Internet Connectivity Demo
     @cherrypy.expose
     def demo(self):
@@ -123,6 +129,7 @@ class Controller(object):
             page_data = self._get_page_data()
             return tmpl.render(page_data)
         else:
+            cherrypy.response.status = 401  # Unauthorized
             raise Web.redirect(Pages.URL["index"])
     # Note: we don't use the API is so that the auth-key
     # for the drone remains concealed (if we do stuff server-side and 
@@ -137,6 +144,7 @@ class Controller(object):
                 drone_name = DB.get("name","drones",drone_uid)
                 return "%s set to %s" % (drone_name,command)
         else:
+            cherrypy.response.status = 401  # Unauthorized
             raise Web.redirect(Pages.URL["index"])
     # Get information specific to current user's orders
     # This requires the user to be logged in
@@ -151,6 +159,7 @@ class Controller(object):
             cherrypy.response.status = 200  # OK
             return json.dumps(ret)
         else:
+            cherrypy.response.status = 401  # Unauthorized
             raise Web.redirect(Pages.URL["index"])
 
     """ Helper functions """
@@ -165,12 +174,12 @@ class Controller(object):
             page_data["usertype"] = DB.get_user_info("type",userid)
             page_data["name"] = DB.get_user_info("name",userid)
             page_data["email"] = DB.get_user_info("email",userid)
-            page_data["order"] = DB.get_user_info("order",userid)
+            page_data["order_uid"] = DB.get_user_info("order",userid)
             page_data["drone_uids"] = DB.get_all("uid",DRONES)
         else:
-            page_data["userid"] = ""
+            page_data["userid"] = None
             page_data["name"] = ""
             page_data["email"] = ""
             page_data["email"] = ""
-            page_data["order"] = ""
+            page_data["order_uid"] = ""
         return page_data

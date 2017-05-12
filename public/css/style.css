@@ -74,6 +74,9 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     align-items: center;
 }
+.disabled {
+    opacity: .5;
+}
 .luna {
     font-weight: bold;
     color: #39bafc;

@@ -116,9 +116,11 @@ class API(object):
                 drone_status = "unassigned"
                 if task_uid:
                     drone_uid = DB.get("drone",TASKS,task_uid)
+                    drone_command = DB.get("command",DRONES,drone_uid)
                     drone_status = DB.get("status",DRONES,drone_uid)
                 return {
                     "drone_uid": drone_uid,
+                    "command": drone_command,
                     "status": drone_status,
                     "contains": DB.get("contains",ORDERS,order_uid),
                     "destination": DB.get("destination",ORDERS,order_uid),

@@ -26,48 +26,48 @@
         <h3>Manage Drones <span class="badge" id="n-drones"></span></h3>
         <div class="accordion">
 
-            {% for uid in drone_uids %}
-            {% set uid = uid[0] %}
+            {% for drone_uid in drone_uids %}
+            {% set drone_uid = drone_uid[0] %}
             <h3 class="accordion-header">
-                <span id="{{uid}}-name" class="name">{{uid}}</span>
+                <span id="{{drone_uid}}-name" class="name">{{drone_uid}}</span>
                 <span class="header">
                     <span class="header-entry">Cmd: </span>
-                    <span class="header-value" id="{{uid}}-command">loading</span>
+                    <span class="header-value" id="{{drone_uid}}-command">loading</span>
                     <span class="header-entry">| Sts: </span>
-                    <span class="header-value" id="{{uid}}-status">loading</span>
+                    <span class="header-value" id="{{drone_uid}}-status">loading</span>
                 </span>
             </h3>
-            <div id="{{uid}}-div">
+            <div id="{{drone_uid}}-div">
                 <div class="row row-spacing">
                     <div class="col-xs-4 entry">Delivery contains:</div>
-                    <div class="col-xs-8 value" id="{{uid}}-contains">loading</div>
+                    <div class="col-xs-8 value" id="{{drone_uid}}-contains">loading</div>
                 </div>
                 <div class="row row-spacing">
                     <div class="col-xs-4 entry">Active mission:</div>
-                    <div class="col-xs-8 value" id="{{uid}}-activemission">loading</div>
+                    <div class="col-xs-8 value" id="{{drone_uid}}-activemission">loading</div>
                 </div>
                 <div class="row row-spacing">
                     <div class="col-xs-4 entry">Errors:</div>
-                    <div class="col-xs-8 value" id="{{uid}}-error">loading</div>
+                    <div class="col-xs-8 value" id="{{drone_uid}}-error">loading</div>
                 </div>
                 <div class="row row-spacing button-container">
                     <div class="col-xs-12 col-sm-3 centered">
-                        <button id="{{uid}}-button-start" onclick="onButtonClick('{{uid}}','start')">Start</button>
-                        <!-- <input id="{{uid}}-button-start" data-toggle="toggle" data-on="Armed" data-off="Disarmed" data-height="45px" data-width="100%" type="checkbox"> -->
+                        <button id="{{drone_uid}}-button-start" onclick="setCommandOnClick('#{{drone_uid}}-button-start','{{drone_uid}}','start',refreshDroneConsole,false)">Start</button>
+                        <!-- <input id="{{drone_uid}}-button-start" data-toggle="toggle" data-on="Armed" data-off="Disarmed" data-height="45px" data-width="100%" type="checkbox"> -->
                     </div>
                     <div class="col-xs-12 col-sm-3 centered">
-                        <button id="{{uid}}-button-takeoff" onclick="onButtonClick('{{uid}}','takeoff')">Takeoff</button>
+                        <button id="{{drone_uid}}-button-takeoff" onclick="setCommandOnClick('{{drone_uid}}-button-takeoff','{{drone_uid}}','takeoff',refreshDroneConsole,false)">Takeoff</button>
                     </div>
                     <div class="col-xs-12 col-sm-3 centered">
-                        <button id="{{uid}}-button-rtl" onclick="onButtonClick('{{uid}}','rtl')">RTL</button>
+                        <button id="{{drone_uid}}-button-rtl" onclick="onRTLClick('{{drone_uid}}-button-rtl','{{drone_uid}}')">RTL</button>
                     </div>
                     <div class="col-xs-12 col-sm-3 centered">
-                        <button id="{{uid}}-button-advancemission" onclick="onButtonClick('{{uid}}','advancemission')">Advance Mission</button>
+                        <button id="{{drone_uid}}-button-advancemission" onclick="setCommandOnClick('{{drone_uid}}-button-advancemission','{{drone_uid}}','advancemission',refreshDroneConsole,false)">Advance Mission</button>
                     </div>
                 </div>
                 <!-- <div class="row row-spacing button-container">
-                    <div class="col-xs-4 centered" id="{{uid}}-button-approvelanding">
-                        <input id="{{uid}}-switch-approvelanding" data-toggle="toggle" data-on="Approve Landing" data-off="Disallow Landing" data-height="45px" data-width="100%" type="checkbox">
+                    <div class="col-xs-4 centered" id="{{drone_uid}}-button-approvelanding">
+                        <input id="{{drone_uid}}-switch-approvelanding" data-toggle="toggle" data-on="Approve Landing" data-off="Disallow Landing" data-height="45px" data-width="100%" type="checkbox">
                     </div>
                 </div> -->
             </div>
@@ -101,28 +101,33 @@
     <div class="row row-spacing">
         <h3>My Orders <span class="badge" id="my-active-orders"></span></h3>
 
-        {% if order %}
+        {% if order_uid %}
         {#- TODO: allow multiple orders per user (?) -#}
         <div class="accordion">
             <h3 class="accordion-header">
-                Order <span class="bold">{{order}}</span> arriving at <span class="bold" id="{{order}}-arrivaltime-header">loading</span>
+                Order <span class="bold">{{order_uid}}</span> arriving at <span class="bold" id="{{order_uid}}-arrivaltime-header">loading</span>
             </h3>
-            <div id="{{order}}-div">
+            <div id="{{order_uid}}-div">
                 <div class="row row-spacing">
                     <div class="col-xs-4 entry">Delivery contains:</div>
-                    <div class="col-xs-8 value" id="{{order}}-contains">loading</div>
+                    <div class="col-xs-8 value" id="{{order_uid}}-contains">loading</div>
                 </div>
                 <div class="row row-spacing">
                     <div class="col-xs-4 entry">Pickup location:</div>
-                    <div class="col-xs-8 value" id="{{order}}-destination">loading</div>
+                    <div class="col-xs-8 value" id="{{order_uid}}-destination">loading</div>
                 </div>
                 <div class="row row-spacing">
                     <div class="col-xs-4 entry">Departure time:</div>
-                    <div class="col-xs-8 value" id="{{order}}-departuretime">loading</div>
+                    <div class="col-xs-8 value" id="{{order_uid}}-departuretime">loading</div>
                 </div>
                 <div class="row row-spacing">
                     <div class="col-xs-4 entry">Estimated arrival time:</div>
-                    <div class="col-xs-8 value" id="{{order}}-arrivaltime">loading</div>
+                    <div class="col-xs-8 value" id="{{order_uid}}-arrivaltime">loading</div>
+                </div>
+                <div class="row row-spacing button-container">
+                    <div class="col-xs-12 col-sm-3 centered">
+                        <button id="{{order_uid}}-button-confirmlanding" onclick="onConfirmLandingClick('{{order_uid}}-button-confirmlanding','{{order_uid}}')">Confirm Landing</button>
+                    </div>
                 </div>
             </div>
         </div>

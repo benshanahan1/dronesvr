@@ -1,8 +1,5 @@
 var uids = [];
-var delayPeriod = 400;  // in milliseconds
 var rtlPressed = false;
-
-
 
 // Document load configuration
 $(document).ready(function() {
@@ -11,40 +8,22 @@ $(document).ready(function() {
         .done(function(result) {
             uids = result.uids;
             refreshDroneConsole();  // update active fields on page
-            setInterval(refreshDroneConsole, delayPeriod);  // set recurring refreshes
+            setInterval(refreshDroneConsole, 500);  // set recurring refreshes in ms
         });
 });
 
-
-
 // Button click handlers
-function onButtonClick(uid,cmd) {
-    // Define button IDs
-    var advancemission = "#"+uid+"-button-advancemission";
-    var start = "#"+uid+"-button-start";
-    var takeoff = "#"+uid+"-button-takeoff";
-    var rtl = "#"+uid+"-button-rtl";
-    // Interpret command
-    if (cmd == "advancemission") {
-        // disable(advancemission);  // TODO: reenable
-        post(uid,cmd);
-    } else if (cmd == "start") {
-        // disable(start);  // TODO: reenable
-        post(uid,cmd);
-    } else if (cmd == "takeoff") {
-        // disable(takeoff);  // TODO: reenable
-        post(uid,cmd);
-    } else if (cmd == "rtl") {
-        if (!rtlPressed) {
-            rtlPressed = true;
-            setDangerMode(rtl);
-            set(rtl,"Are you sure?");
-        } else {
-            // disable(rtl);  // TODO: reenable
-            set(rtl,"RTL");
-            post(uid,cmd);
-            unsetDangerMode(rtl);  // TODO: remove
-        }
+function onRTLClick(id,uid) {
+    if (!rtlPressed) {
+        rtlPressed = true;
+        setDangerMode(id);
+        set(id,"Are you sure?");
+    } else {
+        // disable(id);  // TODO: reenable
+        set(id,"RTL");
+        set_command(uid,'rtl',refreshDroneConsole);
+        rtlPressed = false;  // TODO: remove
+        unsetDangerMode(id);  // TODO: remove
     }
 }
 // function onDivClick(uid) {
@@ -54,9 +33,8 @@ function onButtonClick(uid,cmd) {
 //     unsetDangerMode("#"+uid+"-button-rtl");
 // }
 
-
-
-function setButtonsFromCommandStatus(uid,cmd,sts) {
+// Enable / disable buttons on page
+function updateDroneConsoleButtons(uid,sts) {
     // Define button IDs
     var advancemission = "#"+uid+"-button-advancemission"
     var start = "#"+uid+"-button-start";
@@ -97,8 +75,6 @@ function setButtonsFromCommandStatus(uid,cmd,sts) {
     }
 }
 
-
-
 // Database interfacing
 function refreshDroneConsole() {
     for (var i = 0; i < uids.length; i++) {
@@ -111,15 +87,7 @@ function refreshDroneConsole() {
                 $("#"+uid+"-activemission").text(result.activemission);
                 $("#"+uid+"-error").text(result.error);
                 // TODO: enable
-                // setButtonsFromCommandStatus(uid,result.command,result.status);
+                // updateDroneConsoleButtons(uid,result.status);
             });
     }
-}
-function post(uid,cmd) {
-    $.post("/set_command",{drone_uid: uid, command: cmd})
-        .done(function(result) {
-            console.log("JSON response: " + result);
-            refresh();  // update display
-            return result;
-        });
 }
