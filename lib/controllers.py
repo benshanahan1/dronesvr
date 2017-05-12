@@ -15,6 +15,7 @@ DB = DBFunc()
 
 # Names of database tables
 DRONES = Database.DRONES_TABLE
+ORDERS = Database.ORDERS_TABLE
 TYPES = Database.TYPES_TABLE
 
 """
@@ -135,6 +136,20 @@ class Controller(object):
                 DB.set("command",command,"drones",drone_uid)
                 drone_name = DB.get("name","drones",drone_uid)
                 return "%s set to %s" % (drone_name,command)
+        else:
+            raise Web.redirect(Pages.URL["index"])
+    # Get information specific to current user's orders
+    # This requires the user to be logged in
+    @cherrypy.expose
+    def get_order_uids(self):
+        userid = cherrypy.session.get(Session.USERID)
+        if userid is not None and DB.check_permissions(userid,0):
+            uids = DB.get_all_where("uid",ORDERS,"userid",userid,"completed","0")
+            ret = {"order_uids":[]}
+            for u in uids:
+                ret["order_uids"].append(u[0])
+            cherrypy.response.status = 200  # OK
+            return json.dumps(ret)
         else:
             raise Web.redirect(Pages.URL["index"])
 

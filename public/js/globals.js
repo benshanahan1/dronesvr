@@ -37,3 +37,28 @@ function signOut() {
         window.location.replace("logout");  // server-side log-out
     });
 }
+// Set text / html given element ID
+function set(id,text,html=false) {
+    if (html) {
+        $(id).html(text);
+    } else {
+        $(id).text(text);
+    }
+}
+// Enable / disable element matching ID
+function enable(id) {
+    $(id).attr("disabled",false);
+    // console.log("Enable: "+id);
+}
+function disable(id) {
+    $(id).attr("disabled",true);
+    // console.log("Disable: "+id);
+}
+function setDangerMode(id) {
+    $(id).addClass("danger danger-background");
+    // console.log("Set Danger Mode: "+id);
+}
+function unsetDangerMode(id) {
+    $(id).removeClass("danger danger-background");
+    // console.log("Unset Danger Mode: "+id);
+}

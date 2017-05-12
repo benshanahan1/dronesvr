@@ -72,7 +72,7 @@ class API(object):
                     "error": DB.get("error",DRONES,drone_uid),
                     "voltage": DB.get("voltage",DRONES,drone_uid),
                     "activemission": DB.get("activemission",DRONES,drone_uid),
-                    "contains": DB.get("flavor",ORDERS,order_uid)
+                    "contains": DB.get("contains",ORDERS,order_uid)
                 }
 
             def _get_general(drone_uid):
@@ -110,20 +110,28 @@ class API(object):
         # Return information specific to given order_uid
         elif order_uid is not None and DB.uid_exists(order_uid,ORDERS):
 
-            # Return status of drone corresponding to given order_uid
-            def _get_status(order_uid):
+            # Return order status
+            def _get_order_status(order_uid):
                 task_uid = DB.get("task",ORDERS,order_uid)
                 drone_status = "unassigned"
                 if task_uid:
                     drone_uid = DB.get("drone",TASKS,task_uid)
                     drone_status = DB.get("status",DRONES,drone_uid)
-                return {"status": drone_status}
+                return {
+                    "drone_uid": drone_uid,
+                    "status": drone_status,
+                    "contains": DB.get("contains",ORDERS,order_uid),
+                    "destination": DB.get("destination",ORDERS,order_uid),
+                    "departuretime": DB.get("departuretime",ORDERS,order_uid),
+                    "arrivaltime": DB.get("arrivaltime",ORDERS,order_uid),
+                    "completed": DB.get("completed",ORDERS,order_uid)
+                }
 
             # Return requested subset to client
             cherrypy.response.status = 200  # OK
             if subset is None:
-                # Return command
-                return json.dumps(_get_status(order_uid))
+                # Return status
+                return json.dumps(_get_order_status(order_uid))
 
         # If no UID is specified, return a list of all drone UIDs
         else:
@@ -151,6 +159,7 @@ class API(object):
             return "Unauthorized"
 
     """ Queue new order (user request for a drone pickup / dropoff) """
+    # TODO: this will no longer work: fix this
     def PUT(self, username=None, password=None, order=None):
         if username is not None and password is not None:
             # Authenticate username and password. Allow all credential types (user,mod,admin).

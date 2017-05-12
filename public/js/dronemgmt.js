@@ -1,5 +1,5 @@
 var uids = [];
-var delayPeriod = 200;  // in milliseconds
+var delayPeriod = 400;  // in milliseconds
 var rtlPressed = false;
 
 
@@ -10,8 +10,8 @@ $(document).ready(function() {
     $.get("/api")
         .done(function(result) {
             uids = result.uids;
-            refresh();  // update active fields on page
-            setInterval(refresh, delayPeriod);  // set recurring refreshes
+            refreshDroneConsole();  // update active fields on page
+            setInterval(refreshDroneConsole, delayPeriod);  // set recurring refreshes
         });
 });
 
@@ -56,32 +56,6 @@ function onButtonClick(uid,cmd) {
 
 
 
-// Helper classes to manage on-screen text and button manipulation
-// Set text / html given element ID
-function set(id,text,html=false) {
-    if (html) {
-        $(id).html(text);
-    } else {
-        $(id).text(text);
-    }
-}
-// Enable / disable element matching ID
-function enable(id) {
-    $(id).attr("disabled",false);
-    // console.log("Enable: "+id);
-}
-function disable(id) {
-    $(id).attr("disabled",true);
-    // console.log("Disable: "+id);
-}
-function setDangerMode(id) {
-    $(id).addClass("danger danger-background");
-    // console.log("Set Danger Mode: "+id);
-}
-function unsetDangerMode(id) {
-    $(id).removeClass("danger danger-background");
-    // console.log("Unset Danger Mode: "+id);
-}
 function setButtonsFromCommandStatus(uid,cmd,sts) {
     // Define button IDs
     var advancemission = "#"+uid+"-button-advancemission"
@@ -126,7 +100,7 @@ function setButtonsFromCommandStatus(uid,cmd,sts) {
 
 
 // Database interfacing
-function refresh() {
+function refreshDroneConsole() {
     for (var i = 0; i < uids.length; i++) {
         var uid = uids[i];
         $.get("/api?drone_uid=" + uid + "&subset=state")

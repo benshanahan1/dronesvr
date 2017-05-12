@@ -102,6 +102,15 @@ class DBFunc:
     def get_all(self, field, table):
         return self._query("SELECT {} FROM {}".format(field,table), return_all=True)
 
+    # Get all values from all FIELDS in TABLE where QFIELD == QVAL
+    # If qfield2 and qval2 are supplied, AND is assumed.
+    # Example usage: DBFunc.get_all("uid","drones","userid",USERID)
+    def get_all_where(self, field, table, qfield, qval, qfield2=None, qval2=None):
+        if qfield2 is not None and qval2 is not None:
+            return self._query("SELECT {} FROM {} WHERE {}=%s AND {}=%s".format(field,table,qfield,qfield2),(qval,qval2),return_all=True)
+        else:
+            return self._query("SELECT {} FROM {} WHERE {}=%s".format(field,table,qfield),(qval,),return_all=True)
+
     ####################
     ### Job queueing ###
     ####################

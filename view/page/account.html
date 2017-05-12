@@ -8,20 +8,23 @@
 
 {% block content %}
 
+<script>
+    $( function() {
+        $( ".accordion" ).accordion({
+            heightStyle: "content",
+            collapsible: true,
+            active: false
+        });
+    } );
+</script>
+
 <div style="margin-top:-20pt;" class="container">
 
     {% if usertype >= 1 %}
     <!-- Administrative interface -->
-    <script>
-        $( function() {
-            $( "#accordion" ).accordion({
-                heightStyle: "content"
-            });
-        } );
-    </script>
     <div class="row row-spacing">
-        <h3>Manage Drones <span class="badge" id="n-drones">1</span></h3>
-        <div id="accordion">
+        <h3>Manage Drones <span class="badge" id="n-drones"></span></h3>
+        <div class="accordion">
 
             {% for uid in drone_uids %}
             {% set uid = uid[0] %}
@@ -29,23 +32,23 @@
                 <span id="{{uid}}-name" class="name">{{uid}}</span>
                 <span class="header">
                     <span class="header-entry">Cmd: </span>
-                    <span class="header-value" id="{{uid}}-command">unset</span>
+                    <span class="header-value" id="{{uid}}-command">loading</span>
                     <span class="header-entry">| Sts: </span>
-                    <span class="header-value" id="{{uid}}-status">unset</span>
+                    <span class="header-value" id="{{uid}}-status">loading</span>
                 </span>
             </h3>
             <div id="{{uid}}-div">
                 <div class="row row-spacing">
                     <div class="col-xs-4 entry">Delivery contains:</div>
-                    <div class="col-xs-8 value" id="{{uid}}-contains">unset</div>
+                    <div class="col-xs-8 value" id="{{uid}}-contains">loading</div>
                 </div>
                 <div class="row row-spacing">
                     <div class="col-xs-4 entry">Active mission:</div>
-                    <div class="col-xs-8 value" id="{{uid}}-activemission">unset</div>
+                    <div class="col-xs-8 value" id="{{uid}}-activemission">loading</div>
                 </div>
                 <div class="row row-spacing">
                     <div class="col-xs-4 entry">Errors:</div>
-                    <div class="col-xs-8 value" id="{{uid}}-error">unset</div>
+                    <div class="col-xs-8 value" id="{{uid}}-error">loading</div>
                 </div>
                 <div class="row row-spacing button-container">
                     <div class="col-xs-12 col-sm-3 centered">
@@ -73,18 +76,18 @@
         </div>
     </div>
 
-    <script src="/static/js/account.js"></script>
+    <script src="/static/js/dronemgmt.js"></script>
     {% endif %}
 
 
 
     {% if usertype >= 2 %}
-    <div class="row row-spacing">
+    <!-- <div class="row row-spacing">
         <h3>Manage Users <span class="badge" id="n-active-users"></span></h3>
         <ul>
             Not yet implemented.
         </ul>
-    </div>
+    </div> -->
 
     <div class="row row-spacing">
         <h3>Extras</h3>
@@ -97,9 +100,36 @@
 
     <div class="row row-spacing">
         <h3>My Orders <span class="badge" id="my-active-orders"></span></h3>
-        <ul>
-            No active drones.
-        </ul>
+
+        {% if order %}
+        {#- TODO: allow multiple orders per user (?) -#}
+        <div class="accordion">
+            <h3 class="accordion-header">
+                Order <span class="bold">{{order}}</span> arriving at <span class="bold" id="{{order}}-arrivaltime-header">loading</span>
+            </h3>
+            <div id="{{order}}-div">
+                <div class="row row-spacing">
+                    <div class="col-xs-4 entry">Delivery contains:</div>
+                    <div class="col-xs-8 value" id="{{order}}-contains">loading</div>
+                </div>
+                <div class="row row-spacing">
+                    <div class="col-xs-4 entry">Pickup location:</div>
+                    <div class="col-xs-8 value" id="{{order}}-destination">loading</div>
+                </div>
+                <div class="row row-spacing">
+                    <div class="col-xs-4 entry">Departure time:</div>
+                    <div class="col-xs-8 value" id="{{order}}-departuretime">loading</div>
+                </div>
+                <div class="row row-spacing">
+                    <div class="col-xs-4 entry">Estimated arrival time:</div>
+                    <div class="col-xs-8 value" id="{{order}}-arrivaltime">loading</div>
+                </div>
+            </div>
+        </div>
+        <script src="/static/js/ordermgmt.js"></script>
+        {% else %}
+            <span>You have no active orders. <a href="account">Refresh</a>.</span>
+        {% endif %}
     </div>
 
     <div class="row row-spacing">
