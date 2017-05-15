@@ -1,9 +1,25 @@
 // lunadrop JS frontend
+// Must be loaded after map.js
 
 // Get page information
 var username = $("#username").val();
 var selectedDestination = "";
 var selectedFlavor = "";
+
+// Define event listeners for interactivity
+destinationLayer.on("click",function(e) {
+    if (!e.layer.feature.properties["selected"]) {
+        resetColors();
+        e.layer.feature.properties["marker-color"] = selectedColor;
+        e.layer.feature.properties["selected"] = true;
+        var fullName = e.layer.feature.properties["name"];
+        selectedDestination = e.layer.feature.properties["destination"];
+        var msg = "Delivery at <span class='bold'>" + fullName + "</span>.";
+        secondNotify(msg);
+        showPlaceOrderButton();
+    }
+    destinationLayer.setGeoJSON(destinations);
+});
 
 // Check that selectedFlavor and selectedDestination are valid
 function verifySelections() {
@@ -62,4 +78,13 @@ function showFlavorSelectionScreen() {
 // Display order button on screen
 function showPlaceOrderButton() {
     $("#place-order").show("fast");
+}
+
+// Reset color of all markers in Mapbox.js GeoJSON structure
+function resetColors() {
+    for (var i = 0; i < destinations.length; i++) {
+        destinations[i].properties["marker-color"] = unselectedColor;
+        destinations[i].properties["selected"] = false;
+    }
+    destinationLayer.setGeoJSON(destinations);
 }

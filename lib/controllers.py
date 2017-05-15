@@ -79,6 +79,7 @@ class Controller(object):
             if idinfo['aud'] == client_id:
                 # token is valid and intended for client
                 # get unique Google ID for user
+                print idinfo
                 userid = idinfo['sub']
                 cherrypy.session[Session.USERID] = userid  # unique google user id
                 cherrypy.session[Session.NAME] = idinfo['name']
@@ -96,19 +97,19 @@ class Controller(object):
         raise Web.redirect(Pages.URL["index"])
     # Add new delivery job (this is an AJAX endpoint)
     @cherrypy.expose
-    def addorder(self,flavor=None,destination=None):
+    def addorder(self,contains=None,destination=None):
         userid = cherrypy.session.get(Session.USERID)
         if DB.check_permissions(userid,0) and \
-           flavor is not None and destination is not None:
+           contains is not None and destination is not None:
             # TODO: determine that flavor and destination 
             # values are valid (match pre-existing values)
             # Determine that user has not already queued a job
             if DB.user_can_queue(userid):  # make sure user can queue a job!
-                orderid = UID.generate("order")
+                orderid = UID.generate("order")  # generate random job UID
                 new_order = {
-                    "uid": orderid,  # generate random job UID
+                    "uid": orderid,
                     "userid": userid,
-                    "flavor": flavor,
+                    "contains": contains,
                     "destination": destination,
                     "timestamp": Timestamp.now()
                 }

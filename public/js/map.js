@@ -4,8 +4,9 @@
 var unselectedColor = "#666666";
 var selectedColor = "#39bafc";
 
-// Define feature markers (TODO: put this in a separate text file?!)
-var info = {
+// Define feature markers
+// TODO: this information should be pulled from database
+var destinationInfo = {
     "ruthsimmons": {
         "name": "Ruth Simmons",
         "destination": "ruthsimmons",
@@ -36,46 +37,46 @@ var info = {
         "selected": false,
         "marker-size": "small"
     }
-}
+};
 
-// Define full geoJson structure
-var geoJson = {
-    type: "FeatureCollection",
-    features: [
-        generateFeature(info["ruthsimmons"]),
-        generateFeature(info["maingreen"]),
-        generateFeature(info["quietgreen"])
-    ]
-}
+var droneInfo = {
+    "luna": {
+        "name": "luna",
+        "latitude": 41.826192,  // default start location
+        "longitude": -71.402693,
+        "iconUrl": "/static/img/frontend/luna.png",
+        "iconSize": [30,30],
+        "iconAnchor": [15,15],
+    }
+};
+
+// Define GeoJSON structures
+var destinations = [
+    generateDestination(destinationInfo["ruthsimmons"]),
+    generateDestination(destinationInfo["maingreen"]),
+    generateDestination(destinationInfo["quietgreen"])
+];
+var drones = [
+    generateDrone(droneInfo["luna"])
+];
 
 // Define map
 L.mapbox.accessToken = 'pk.eyJ1IjoiaXp6eWJyYW5kIiwiYSI6ImNpeTdzdHh3ZDAwNncycXN4eTYyY2k3dTAifQ.WzrAcd4xaQ0dd7ur3u0fSQ';
 var map = L.mapbox.map("map","mapbox.light",{zoomControl: false}).setView([41.826192,-71.402693],16);
 
-// Define map layer
-var myLayer = L.mapbox.featureLayer().addTo(map);
-myLayer.setGeoJSON(geoJson);
+// Add map layers
+var destinationLayer = L.mapbox.featureLayer().addTo(map);
+var droneLayer = L.mapbox.featureLayer().addTo(map);
+destinationLayer.setGeoJSON(destinations);
+droneLayer.setGeoJSON(drones);
 
-// Define event listeners for interactivity
-myLayer.on("click",function(e) {
-    if (!e.layer.feature.properties["selected"]) {
-        resetColors();
-        e.layer.feature.properties["marker-color"] = selectedColor;
-        e.layer.feature.properties["selected"] = true;
-        var fullName = e.layer.feature.properties["name"];
-        selectedDestination = e.layer.feature.properties["destination"];
-        var msg = "Delivery at <span class='bold'>" + fullName + "</span>.";
-        secondNotify(msg);
-        showPlaceOrderButton();
-    }
-    myLayer.setGeoJSON(geoJson);
-});
+// TODO: overlay a generic flight path on the map
 
 //////////////////////////////////////////////////
 
 // HELPER FUNCTIONS //
 // Generate geoJSON data for each destination feature
-function generateFeature(info) {
+function generateDestination(info) {
     return {
         type: "Feature",
         properties: {
@@ -94,11 +95,24 @@ function generateFeature(info) {
     }
 }
 
-// Reset color of all markers in geoJson structure
-function resetColors() {
-    for (var i = 0; i < geoJson.features.length; i++) {
-        geoJson.features[i].properties["marker-color"] = unselectedColor;
-        geoJson.features[i].properties["selected"] = false;
+function generateDrone(info) {
+    return {
+        type: "Feature",
+        properties: {
+            "name": info["name"],
+            "marker-color": "#39bacf",
+            "marker-size": "medium",
+            "marker-symbol": "rocket",
+            // TODO: get this working with custom icons
+            // icon: {
+            //     iconUrl: info["iconUrl"],
+            //     iconSize: info["iconSize"],
+            //     iconAnchor: info["iconAnchor"]
+            // }
+        },
+        geometry: {
+            type: "Point",
+            coordinates: [info["longitude"],info["latitude"]]
+        }
     }
-    myLayer.setGeoJSON(geoJson);
 }
