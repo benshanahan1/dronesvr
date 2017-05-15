@@ -29,7 +29,7 @@ class Controller(object):
     # Site index
     @cherrypy.expose
     def index(self):
-        tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["index"])
+        tmpl = Environment(loader=FileSystemLoader(".")).get_template(Pages.TEMPLATE["map"])
         page_data = self._get_page_data()
         return tmpl.render(page_data)
     # About page

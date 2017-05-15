@@ -44,14 +44,14 @@ class UIDConst:
 class Pages:
     # Path to template file
     TEMPLATE = {
-        "index": "view/page/index.html",
+        "map": "view/page/map.html",
         "about": "view/page/about.html",
         "account": "view/page/account.html",
         "demo": "view/page/demo.html"
     }
     # URL to page
     URL = {
-        "index": "/",
+        "map": "/",
         "about": "/about",
         "account": "/account",
         "demo": "/demo"

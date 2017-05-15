@@ -1,6 +1,6 @@
 {% macro generate_nav() %}
-    {% set active_page = active_page|default("index") -%}
-    {% if active_page != "index" %}<a href="/">Order</a> | {% endif %}
+    {% set active_page = active_page|default("map") -%}
+    {% if active_page != "map" %}<a href="/">Order</a> | {% endif %}
     <a href="/about" {% if active_page=="about" %}class="active"{% endif %}>About</a>
     {% if userid %}
      | <a href="/account" {% if active_page=="account" %}class="active"{% endif %}>Account</a>

@@ -1,16 +1,16 @@
+// lunadrop: Real-time Web Interface for Drone Management
+// Benjamin Shanahan & Isaiah Brand, 2017.
+
+///////////////////////////////////////////////////////////////////////////////
+// DEFAULT VALUES                                                            //
+///////////////////////////////////////////////////////////////////////////////
+
 var uids = [];
 var rtlPressed = false;
 
-// Document load configuration
-$(document).ready(function() {
-    // get a list of drone UIDs from the API
-    $.get("/api")
-        .done(function(result) {
-            uids = result.uids;
-            refreshDroneConsole();  // update active fields on page
-            setInterval(refreshDroneConsole, 500);  // set recurring refreshes in ms
-        });
-});
+///////////////////////////////////////////////////////////////////////////////
+// INTERACTIVITY                                                             //
+///////////////////////////////////////////////////////////////////////////////
 
 // Button click handlers
 function onRTLClick(id,uid) {
@@ -26,12 +26,6 @@ function onRTLClick(id,uid) {
         unsetDangerMode(id);  // TODO: remove
     }
 }
-// function onDivClick(uid) {
-//     // TODO: fix this; it doesn't work due to event bubbling
-//     // use this to disable RTL button if user clicks out of focus
-//     rtlPressed = false;
-//     unsetDangerMode("#"+uid+"-button-rtl");
-// }
 
 // Enable / disable buttons on page
 function updateDroneConsoleButtons(uid,sts) {
@@ -74,6 +68,21 @@ function updateDroneConsoleButtons(uid,sts) {
         enable(rtl);
     }
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// DATABASE INTERACTION                                                      //
+///////////////////////////////////////////////////////////////////////////////
+
+// Document load configuration
+$(document).ready(function() {
+    // get a list of drone UIDs from the API
+    $.get("/api")
+        .done(function(result) {
+            uids = result.uids;
+            refreshDroneConsole();  // update active fields on page
+            setInterval(refreshDroneConsole, 500);  // set recurring refreshes
+        });
+});
 
 // Database interfacing
 function refreshDroneConsole() {

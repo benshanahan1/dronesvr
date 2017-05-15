@@ -1,5 +1,36 @@
+// lunadrop: Real-time Web Interface for Order Management 
+// Benjamin Shanahan & Isaiah Brand, 2017.
+
+///////////////////////////////////////////////////////////////////////////////
+// DEFAULT VALUES                                                            //
+///////////////////////////////////////////////////////////////////////////////
+
 var order_uids = [];
 var drone_uid = [];
+
+///////////////////////////////////////////////////////////////////////////////
+// INTERACTIVITY                                                             //
+///////////////////////////////////////////////////////////////////////////////
+
+// Handle confirm landing button click
+function onConfirmLandingClick(id,order_uid) {
+    set_command(drone_uid,"land");
+}
+
+function updateOrderConsoleButtons(order_uid,cmd,sts) {
+    // Define button IDs
+    var confirmlanding = "#"+order_uid+"-button-confirmlanding"
+    // Interpret command and status
+    if (sts == "wait_land" && cmd != "land") {
+        enable(confirmlanding);
+    } else {
+        disable(confirmlanding);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// DATABASE INTERACTION                                                      //
+///////////////////////////////////////////////////////////////////////////////
 
 // Document load configuration
 $(document).ready(function() {
@@ -13,12 +44,7 @@ $(document).ready(function() {
         });
 });
 
-// Handle confirm landing button click
-function onConfirmLandingClick(id,order_uid) {
-    set_command(drone_uid,"land");
-}
-
-// Database interfacing
+// Refresh user orders from database
 function refreshOrderConsole() {
     for (var i = 0; i < order_uids.length; i++) {
         var order_uid = order_uids[i];
@@ -32,16 +58,5 @@ function refreshOrderConsole() {
                 drone_uid = result.drone_uid;  // save drone_uid
                 updateOrderConsoleButtons(order_uid,result.command,result.status);
             });
-    }
-}
-
-function updateOrderConsoleButtons(order_uid,cmd,sts) {
-    // Define button IDs
-    var confirmlanding = "#"+order_uid+"-button-confirmlanding"
-    // Interpret command and status
-    if (sts == "wait_land" && cmd != "land") {
-        enable(confirmlanding);
-    } else {
-        disable(confirmlanding);
     }
 }

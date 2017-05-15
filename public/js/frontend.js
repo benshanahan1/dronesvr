@@ -1,10 +1,19 @@
-// lunadrop JS frontend
+// lunadrop: JavaScript frontend
 // Must be loaded after map.js
+// Benjamin Shanahan & Isaiah Brand, 2017.
+
+///////////////////////////////////////////////////////////////////////////////
+// DEFAULT VALUES                                                            //
+///////////////////////////////////////////////////////////////////////////////
 
 // Get page information
 var username = $("#username").val();
 var selectedDestination = "";
 var selectedFlavor = "";
+
+///////////////////////////////////////////////////////////////////////////////
+// INTERACTIVITY                                                             //
+///////////////////////////////////////////////////////////////////////////////
 
 // Define event listeners for interactivity
 destinationLayer.on("click",function(e) {
@@ -21,6 +30,10 @@ destinationLayer.on("click",function(e) {
     destinationLayer.setGeoJSON(destinations);
 });
 
+///////////////////////////////////////////////////////////////////////////////
+// ERROR CHECKING                                                            //
+///////////////////////////////////////////////////////////////////////////////
+
 // Check that selectedFlavor and selectedDestination are valid
 function verifySelections() {
     // Check that inputs are non-empty
@@ -28,7 +41,22 @@ function verifySelections() {
     return non_empty;
 }
 
-// Push alert to notify user. TODO: make this less intrusive!
+// Check that user has selected a flavor (and that form is not still set to empty)
+function checkFlavorChoice() {
+    var type = $("#flavor-select").val();
+    if (type != "default") {
+        selectedFlavor = type;
+        showLocationSelectionScreen();
+        var msg = "You've selected a <span class='bold'>" + type + "</span> donut. <a href='#' onclick='showFlavorSelectionScreen()'>Change</a>.";
+        firstNotify(msg);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// ON-SCREEN UPDATES AND NOTIFICATIONS                                       //
+///////////////////////////////////////////////////////////////////////////////
+
+// Push alert to notify user. TODO: refine this
 function firstNotify(msg) {
     $("#first-notification").html(msg).show("fast");
 }
@@ -40,29 +68,6 @@ function hideNotification(num) {
         $("#first-notification").hide("fast");    
     } else if (num == 2) {
         $("#second-notification").hide("fast");
-    }
-}
-
-// AJAX functionality to asynchronously add an order
-function addOrder() {
-    if (verifySelections()) {
-        // alert("Your order has been placed!");
-        $.post("/addorder", {flavor: selectedFlavor, destination: selectedDestination})
-            .done(function(result) {
-                var parsed = $.parseJSON(result);
-                alert(parsed.message);
-            });
-    }
-}
-
-// Check that user has selected a flavor (and that form is not still set to empty)
-function checkFlavorChoice() {
-    var type = $("#flavor-select").val();
-    if (type != "default") {
-        selectedFlavor = type;
-        showLocationSelectionScreen();
-        var msg = "You've selected a <span class='bold'>" + type + "</span> donut. <a href='#' onclick='showFlavorSelectionScreen()'>Change</a>.";
-        firstNotify(msg);
     }
 }
 
@@ -87,4 +92,20 @@ function resetColors() {
         destinations[i].properties["selected"] = false;
     }
     destinationLayer.setGeoJSON(destinations);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// DATABASE INTERACTION                                                      //
+///////////////////////////////////////////////////////////////////////////////
+
+// AJAX functionality to asynchronously add an order
+function addOrder() {
+    if (verifySelections()) {
+        // alert("Your order has been placed!");
+        $.post("/addorder", {flavor: selectedFlavor, destination: selectedDestination})
+            .done(function(result) {
+                var parsed = $.parseJSON(result);
+                alert(parsed.message);
+            });
+    }
 }
