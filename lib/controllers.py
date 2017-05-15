@@ -48,7 +48,7 @@ class Controller(object):
             return tmpl.render(page_data)  # render page
         else:
             cherrypy.response.status = 401  # Unauthorized
-            raise Web.redirect(Pages.URL["index"])  # reject user access
+            raise Web.redirect(Pages.URL["map"])  # reject user access
 
     """ Functional endpoints """
     # Login endpoint (checks POSTed credentials and then redirects)
@@ -56,7 +56,7 @@ class Controller(object):
     @cherrypy.expose
     def login(self, token=None):
         if token is None:
-            Web.redirect(Pages.URL["index"])  # reject user login
+            Web.redirect(Pages.URL["map"])  # reject user login
         else:
             try:
                 client_id = Authentication.CLIENT_ID
@@ -66,7 +66,7 @@ class Controller(object):
             except crypt.AppIdentityError:
                 # Invalid token
                 cherrypy.response.status = 401  # Unauthorized
-                raise Web.redirect(Pages.URL["index"])  # reject user login
+                raise Web.redirect(Pages.URL["map"])  # reject user login
             # Verify that domain belongs to @brown.edu
             domain = re.search("@[\w.]+",idinfo["email"])
             if domain.group() != Authentication.ALLOWED_USER_DOMAIN:
@@ -74,7 +74,7 @@ class Controller(object):
                 cherrypy.session[Session.USERID] = ""
                 cherrypy.session[Session.NAME] = ""
                 cherrypy.response.status = 401  # Unauthorized
-                raise Web.redirect(Pages.URL["index"])
+                raise Web.redirect(Pages.URL["map"])
             # check client_id and allow authentication if it matches
             if idinfo['aud'] == client_id:
                 # token is valid and intended for client
@@ -89,12 +89,12 @@ class Controller(object):
                 return idinfo['name']
             else:
                 cherrypy.response.status = 401  # Unauthorized
-                raise Web.redirect(Pages.URL["index"])  # reject user login
+                raise Web.redirect(Pages.URL["map"])  # reject user login
     @cherrypy.expose
     def logout(self):
         cherrypy.session[Session.USERID] = None
         cherrypy.session[Session.NAME] = None
-        raise Web.redirect(Pages.URL["index"])
+        raise Web.redirect(Pages.URL["map"])
     # Add new delivery job (this is an AJAX endpoint)
     @cherrypy.expose
     def addorder(self,contains=None,destination=None):
@@ -120,7 +120,7 @@ class Controller(object):
                 return json.dumps({"success":False,"message":"Sorry, you've already requested a donut!"})
         else:
             cherrypy.response.status = 401  # Unauthorized
-            raise Web.redirect(Pages.URL["index"])
+            raise Web.redirect(Pages.URL["map"])
     # Internet Connectivity Demo
     @cherrypy.expose
     def demo(self):
@@ -131,7 +131,7 @@ class Controller(object):
             return tmpl.render(page_data)
         else:
             cherrypy.response.status = 401  # Unauthorized
-            raise Web.redirect(Pages.URL["index"])
+            raise Web.redirect(Pages.URL["map"])
     # Note: we don't use the API is so that the auth-key
     # for the drone remains concealed (if we do stuff server-side and 
     # directly interface with the database, we don't need it)
@@ -146,7 +146,7 @@ class Controller(object):
                 return "%s set to %s" % (drone_name,command)
         else:
             cherrypy.response.status = 401  # Unauthorized
-            raise Web.redirect(Pages.URL["index"])
+            raise Web.redirect(Pages.URL["map"])
     # Get information specific to current user's orders
     # This requires the user to be logged in
     @cherrypy.expose
@@ -161,7 +161,7 @@ class Controller(object):
             return json.dumps(ret)
         else:
             cherrypy.response.status = 401  # Unauthorized
-            raise Web.redirect(Pages.URL["index"])
+            raise Web.redirect(Pages.URL["map"])
 
     """ Helper functions """
     # Return page_data dict to pass to Jinja template
