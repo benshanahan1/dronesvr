@@ -21,7 +21,7 @@ function onRTLClick(id,uid) {
     } else {
         // disable(id);  // TODO: reenable
         set(id,"RTL");
-        set_command(uid,'rtl',refreshDroneConsole);
+        setCommand(uid,'rtl',refreshDroneConsole);
         rtlPressed = false;  // TODO: remove
         unsetDangerMode(id);  // TODO: remove
     }
