@@ -81,23 +81,6 @@
 
 
 
-    {% if usertype >= 2 %}
-    <!-- <div class="row row-spacing">
-        <h3>Manage Users <span class="badge" id="n-active-users"></span></h3>
-        <ul>
-            Not yet implemented.
-        </ul>
-    </div> -->
-
-    <div class="row row-spacing">
-        <h3>Extras</h3>
-        <ul>
-            <li><a href="/demo">Robot Block Party Demo</a></li>
-        </ul>
-    </div>
-    {% endif %}
-
-
     <div class="row row-spacing">
         <h3>My Orders <span class="badge" id="my-active-orders"></span></h3>
 
@@ -136,6 +119,26 @@
             <span>You have no active orders. <a href="account">Refresh</a>.</span>
         {% endif %}
     </div>
+
+
+
+    {% if usertype >= 2 %}
+    <!-- <div class="row row-spacing">
+        <h3>Manage Users <span class="badge" id="n-active-users"></span></h3>
+        <ul>
+            Not yet implemented.
+        </ul>
+    </div> -->
+
+    <div class="row row-spacing">
+        <h3>Extras</h3>
+        <ul>
+            <li><a href="/demo">Robot Block Party Demo</a></li>
+        </ul>
+    </div>
+    {% endif %}
+
+
 
     <div class="row row-spacing">
         <h3>Manage Account</h3>

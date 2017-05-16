@@ -208,8 +208,28 @@ class Timestamp:
 
     # Get current timestamp (string)
     @classmethod
-    def now(self):
-        return str(datetime.datetime.now())
+    def now(self, return_str=True):
+        the_time = datetime.datetime.now()
+        if return_str:
+            return str(the_time)
+        else:
+            return the_time
+
+    # Add time (hours, minutes, and/or seconds) to current datetime object
+    @classmethod
+    def add_time(self,datetime_object,hours=0,minutes=0,seconds=0,return_str=True):
+        new_time = datetime_object + datetime.timedelta(hours=hours,minutes=minutes,seconds=seconds)
+        if return_str:
+            return str(new_time)
+        else:
+            return new_time
+
+    # Display format time (HH:SS am/pm)
+    @classmethod
+    def format(self,datetime_object):
+        # Refer to: http://strftime.org/
+        # Formats time as: '4:27 pm'
+        return datetime_object.strftime('%-I:%M %p')
 
     # Get datetime object from timestamp string
     @classmethod

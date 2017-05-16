@@ -113,6 +113,8 @@ class API(object):
             # Return order status
             def _get_order_status(order_uid):
                 task_uid = DB.get("task",ORDERS,order_uid)
+                drone_uid = "unassigned"
+                drone_command = "unassigned"
                 drone_status = "unassigned"
                 if task_uid:
                     drone_uid = DB.get("drone",TASKS,task_uid)

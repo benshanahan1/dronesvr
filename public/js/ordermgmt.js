@@ -56,6 +56,7 @@ function refreshOrderConsole() {
                 $("#"+order_uid+"-arrivaltime").text(result.arrivaltime);
                 $("#"+order_uid+"-departuretime").text(result.departuretime);
                 drone_uid = result.drone_uid;  // save drone_uid
+                console.log(result)
                 updateOrderConsoleButtons(order_uid,result.command,result.status);
             });
     }

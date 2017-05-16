@@ -106,11 +106,15 @@ class Controller(object):
             # Determine that user has not already queued a job
             if DB.user_can_queue(userid):  # make sure user can queue a job!
                 orderid = UID.generate("order")  # generate random job UID
+                queuetime = Timestamp.now(return_str=False)
+                arrivetime = Timestamp.add_time(queuetime,minutes=15,return_str=False)
                 new_order = {
                     "uid": orderid,
                     "userid": userid,
                     "contains": contains,
                     "destination": destination,
+                    "departuretime": "Has not departed.",
+                    "arrivaltime": Timestamp.format(arrivetime),
                     "timestamp": Timestamp.now()
                 }
                 r1 = DB.add_order(new_order)
