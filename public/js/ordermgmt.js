@@ -14,7 +14,7 @@ var drone_uid = [];
 
 // Handle confirm landing button click
 function onConfirmLandingClick(id,order_uid) {
-    set_command(drone_uid,"land");
+    setCommand(drone_uid,"land");
 }
 
 function updateOrderConsoleButtons(order_uid,cmd,sts) {
