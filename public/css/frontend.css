@@ -20,7 +20,15 @@
     border: solid 3px white;
     border-radius: 5px;
 }
-.landing-page-input {}
+.landing-page-input {
+    height: 40px;
+    font-family: "Comfortaa", cursive;
+}
+.landing-page-option {}
+.landing-page-btn {
+    font-weight: bold;
+    color: #39bacf;
+}
 .landing-page-logo {
     margin-top: 25px;
     margin-bottom: 5px;

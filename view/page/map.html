@@ -29,23 +29,31 @@
 
         {% if userid %}
 
-        <!-- <select id="flavor-select" class="no-bold landing-page-input form-control">
-            <option value="default">Choose a type of donut...</option>
-            <option value="chocolate">Chocolate</option>
-            <option value="glazed">Glazed</option>
-            <option value="cinnamon">Cinnamon</option>
-            <option value="jelly">Jelly</option>
-            <option value="sprinkles">Sprinkles</option>
-        </select>
-        <br>
-        <button class="landing-page-input form-control" onclick="checkFlavorChoice()">Choose Drop Location</button> -->
+            {% if usertype >= 2 %}
+                {# Show order selection dialog for administrators only #}
 
-        <div>There are currently no drones online. <a href="about">Learn more</a>.</div>
+                <div class="row centered">
+                    <select id="flavor-select" class="landing-page-input landing-page-select no-bold landing-page-input col-xs-12 col-sm-8">
+                        <option value="default">Choose a type of donut...</option>
+                        <option value="chocolate">Chocolate</option>
+                        <option value="glazed">Glazed</option>
+                        <option value="cinnamon">Cinnamon</option>
+                        <option value="jelly">Jelly</option>
+                        <option value="sprinkles">Sprinkles</option>
+                    </select>
+                    <button class="landing-page-input landing-page-btn col-xs-12 col-sm-4" onclick="checkFlavorChoice()">CONTINUE</button>
+                </div>
+                
+            {% else %}
+                
+                <div>There are currently no drones online. <a href="about">Learn more</a>.</div>
+            
+            {% endif %}
 
         {% else %}
 
-        <!-- <div id="signin-btn">Sign In</div> -->
-        <div class="g-signin2 signin-btn" data-onsuccess="onSignIn"></div>
+            <!-- <div id="signin-btn">Sign In</div> -->
+            <div class="g-signin2 signin-btn" data-onsuccess="onSignIn"></div>
         
         {% endif %}
     </div>
@@ -63,7 +71,9 @@
 {# Don't include the frontend JS until we're ready to deploy. -#}
 {# And, once we include it, only do so if the user is logged in -#}
 {% if userid %}
-    {# <script src='/static/js/frontend.js'></script>  <!-- realtime frontend magic --> -#}
+    {% if usertype >= 2 %}
+        <script src='/static/js/frontend.js'></script>
+    {% endif %}
 {% endif %}
 
 {% endblock %}

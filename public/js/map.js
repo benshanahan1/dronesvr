@@ -62,7 +62,7 @@ var drones = [
 
 // Authenticate with Mapbox.js API and instantiate map
 L.mapbox.accessToken = 'pk.eyJ1IjoiaXp6eWJyYW5kIiwiYSI6ImNpeTdzdHh3ZDAwNncycXN4eTYyY2k3dTAifQ.WzrAcd4xaQ0dd7ur3u0fSQ';
-var map = L.mapbox.map("map","mapbox.light",{zoomControl: false}).setView([41.826192,-71.402693],16);
+var map = L.mapbox.map("map","mapbox.light",{zoomControl: false}).setView([41.826192,-71.402693],17);
 
 // Add drone and destination layers to map
 var destinationLayer = L.mapbox.featureLayer().addTo(map);
@@ -122,7 +122,7 @@ function generateDrone(info) {
         properties: {
             "name": info["name"],
             "uid": info["uid"],
-            "marker-color": "#39bacf",
+            "marker-color": "#990000",
             "marker-size": "medium",
             "marker-symbol": "rocket",
             // TODO: get this working with custom icons

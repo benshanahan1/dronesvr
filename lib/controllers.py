@@ -117,7 +117,7 @@ class Controller(object):
                 r2 = DB.update_user_order(userid,orderid)
                 return json.dumps({"success":True,"message":"Congrats! Your donut order will soon be on its way."})
             else:
-                return json.dumps({"success":False,"message":"Sorry, you've already requested a donut!"})
+                return json.dumps({"success":False,"message":"Sorry, you've already requested a donut!\nCheck out your current orders on the Account page."})
         else:
             cherrypy.response.status = 401  # Unauthorized
             raise Web.redirect(Pages.URL["map"])

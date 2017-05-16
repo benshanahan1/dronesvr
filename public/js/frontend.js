@@ -47,7 +47,7 @@ function checkFlavorChoice() {
     if (type != "default") {
         selectedFlavor = type;
         showLocationSelectionScreen();
-        var msg = "You've selected a <span class='bold'>" + type + "</span> donut. <a href='#' onclick='showFlavorSelectionScreen()'>Change</a>.";
+        var msg = "You've selected a <span class='bold'><a href='#' onclick='showFlavorSelectionScreen()'>" + type + "</a></span> donut.";
         firstNotify(msg);
     }
 }
@@ -101,11 +101,14 @@ function resetColors() {
 // AJAX functionality to asynchronously add an order
 function addOrder() {
     if (verifySelections()) {
-        // alert("Your order has been placed!");
-        $.post("/addorder", {flavor: selectedFlavor, destination: selectedDestination})
+        $.post("/addorder", {contains: selectedFlavor, destination: selectedDestination})
             .done(function(result) {
                 var parsed = $.parseJSON(result);
-                alert(parsed.message);
+                if (parsed.success) {
+                    window.location = "/account";
+                } else {
+                    alert(parsed.message);
+                }
             });
     }
 }
