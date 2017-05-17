@@ -15,15 +15,11 @@ var rtlPressed = false;
 // Button click handlers
 function onRTLClick(id,uid) {
     if (!rtlPressed) {
+        // set(id,"Are you sure?");  // TODO: fix this, it isn't working
         rtlPressed = true;
-        setDangerMode(id);
-        set(id,"Are you sure?");
     } else {
-        // disable(id);  // TODO: reenable
         set(id,"RTL");
         setCommand(uid,'rtl',refreshDroneConsole);
-        rtlPressed = false;  // TODO: remove
-        unsetDangerMode(id);  // TODO: remove
     }
 }
 
@@ -34,38 +30,52 @@ function updateDroneConsoleButtons(uid,sts) {
     var start = "#"+uid+"-button-start";
     var takeoff = "#"+uid+"-button-takeoff";
     var rtl = "#"+uid+"-button-rtl";
+    var confirmhublanding = "#"+uid+"-button-confirmhublanding";
     // Interpret command and status
     if (sts == "idle") {
-        rtlPressed = false;
-        unsetDangerMode(rtl);
         enable(advancemission);
         enable(start);
         disable(takeoff);
         disable(rtl);
-    }
-    if (sts == "rtl") {
-        rtlPressed = false;  // reset it for later
+        disable(confirmhublanding);
+    } else if (sts == "rtl") {
+        rtlPressed = true;
         setDangerMode(rtl);
         disable(advancemission);
         disable(start);
         disable(takeoff);
         disable(rtl);
-    }
-    if (sts == "wait_arm") {
-        unsetDangerMode(rtl);
+        disable(confirmhublanding);
+    } else if (sts == "wait_arm") {
         disable(advancemission);
         disable(start);
         enable(takeoff);
         enable(rtl);
-    }
-    if (sts == "flying" || sts == "pause") {
-        if (!rtlPressed) {
-            unsetDangerMode(rtl);
-        }
+        disable(confirmhublanding);
+    } else if (sts == "flying" || sts == "pause") {
         disable(advancemission);
         disable(start);
         disable(takeoff);
         enable(rtl);
+        disable(confirmhublanding);
+    } else if (sts == "wait_land_hub") {
+        disable(advancemission);
+        disable(start);
+        disable(takeoff);
+        enable(rtl);
+        enable(confirmhublanding);
+    } else {  // includes landing, pause, wait_land, prearm, takeoff, missionstart
+        disable(advancemission);
+        disable(start);
+        disable(takeoff);
+        enable(rtl);
+        disable(confirmhublanding);
+    }
+    // Change RTL button accordingly
+    if (rtlPressed) {
+        setDangerMode(rtl);
+    } else {
+        unsetDangerMode(rtl);
     }
 }
 
@@ -95,8 +105,7 @@ function refreshDroneConsole() {
                 $("#"+uid+"-contains").text(result.contains);
                 $("#"+uid+"-activemission").text(result.activemission);
                 $("#"+uid+"-error").text(result.error);
-                // TODO: enable
-                // updateDroneConsoleButtons(uid,result.status);
+                updateDroneConsoleButtons(uid,result.status);
             });
     }
 }

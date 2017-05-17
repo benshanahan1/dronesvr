@@ -15,12 +15,8 @@ function upperFirst(string) {
 }
 
 // Set text / html given element ID
-function set(id,text,html=false) {
-    if (html) {
-        $(id).html(text);
-    } else {
-        $(id).text(text);
-    }
+function set(id,text) {    
+    $(id).text(text);
 }
 
 // Enable / disable element matching ID

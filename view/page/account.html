@@ -51,18 +51,23 @@
                     <div class="col-xs-8 value" id="{{drone_uid}}-error">loading</div>
                 </div>
                 <div class="row row-spacing button-container">
-                    <div class="col-xs-12 col-sm-3 centered">
+                    <div class="col-xs-12 col-sm-4 centered">
                         <button id="{{drone_uid}}-button-start" onclick="setCommandOnClick('#{{drone_uid}}-button-start','{{drone_uid}}','start',refreshDroneConsole,false)">Start</button>
                         <!-- <input id="{{drone_uid}}-button-start" data-toggle="toggle" data-on="Armed" data-off="Disarmed" data-height="45px" data-width="100%" type="checkbox"> -->
                     </div>
-                    <div class="col-xs-12 col-sm-3 centered">
+                    <div class="col-xs-12 col-sm-4 centered">
                         <button id="{{drone_uid}}-button-takeoff" onclick="setCommandOnClick('{{drone_uid}}-button-takeoff','{{drone_uid}}','takeoff',refreshDroneConsole,false)">Takeoff</button>
                     </div>
-                    <div class="col-xs-12 col-sm-3 centered">
+                    <div class="col-xs-12 col-sm-4 centered">
                         <button id="{{drone_uid}}-button-rtl" onclick="onRTLClick('{{drone_uid}}-button-rtl','{{drone_uid}}')">RTL</button>
                     </div>
-                    <div class="col-xs-12 col-sm-3 centered">
+                </div>
+                <div class="row row-spacing button-container">
+                    <div class="col-xs-12 col-sm-6 centered">
                         <button id="{{drone_uid}}-button-advancemission" onclick="setCommandOnClick('{{drone_uid}}-button-advancemission','{{drone_uid}}','advancemission',refreshDroneConsole,false)">Advance Mission</button>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 centered">
+                        <button id="{{drone_uid}}-button-confirmhublanding" onclick="setCommandOnClick('{{drone_uid}}-button-confirmhublanding','{{drone_uid}}','land',refreshDroneConsole,false)">Confirm Hub Landing</button>
                     </div>
                 </div>
                 <!-- <div class="row row-spacing button-container">
