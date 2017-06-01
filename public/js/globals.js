@@ -80,8 +80,11 @@ function signOut() {
 
 // Set drone command
 function setCommand(uid,cmd,callback) {
-    $.post("/set_command",{drone_uid: uid, command: cmd})
-        .done(callback);
+    $.post("/set_command",{drone_uid: uid, command: cmd}).done(callback);
+}
+// Confirm landing
+function userConfirmLanding(uid,callback) {
+    $.post("/user_confirm_landing",{drone_uid: uid}).done(callback);
 }
 
 // Click handler

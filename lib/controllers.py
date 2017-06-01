@@ -142,12 +142,30 @@ class Controller(object):
     @cherrypy.expose
     def set_command(self,drone_uid=None,command=None):
         userid = cherrypy.session.get(Session.USERID)
-        if userid is not None and DB.check_permissions(userid,2):
+        if userid is not None and DB.check_permissions(userid,2) \
+            and drone_uid is not None and command is not None:
             if drone_uid is not None and DB.uid_exists(drone_uid,DRONES) and command is not None:
                 # TODO: verify that command is valid
                 DB.set("command",command,"drones",drone_uid)
                 drone_name = DB.get("name","drones",drone_uid)
                 return "%s set to %s" % (drone_name,command)
+        else:
+            cherrypy.response.status = 401  # Unauthorized
+            raise Web.redirect(Pages.URL["map"])
+    # User confirmation of landing. We don't allow set_command() to be
+    # exposed to non-admin users for safety reasons.
+    @cherrypy.expose
+    def user_confirm_landing(self,drone_uid=None):
+        userid = cherrypy.session.get(Session.USERID)
+        if userid is not None and DB.check_permissions(userid,0) \
+            and drone_uid is not None:
+            # Check that drone is in wait_land status and is not landing already.
+            # If so, set command to 'land'
+            status = DB.get("status","drones",drone_uid)
+            command = DB.get("command","drones",drone_uid)
+            if status == "wait_land" and command != "land":
+                # Set drone command to "land"
+                DB.set("command","land","drones",drone_uid)
         else:
             cherrypy.response.status = 401  # Unauthorized
             raise Web.redirect(Pages.URL["map"])

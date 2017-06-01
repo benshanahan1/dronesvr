@@ -14,7 +14,9 @@ var drone_uid = [];
 
 // Handle confirm landing button click
 function onConfirmLandingClick(id,order_uid) {
-    setCommand(drone_uid,"land");
+    userConfirmLanding(drone_uid,function() {
+        console.log("User confirmed drone landing.");
+    });
 }
 
 function updateOrderConsoleButtons(order_uid,cmd,sts) {
